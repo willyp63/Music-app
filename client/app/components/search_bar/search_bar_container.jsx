@@ -18,9 +18,12 @@ class SearchBar extends React.Component {
       const artistQuery = $('#artist-query-input').val()
       // ParseInt b/c we want entity type enum value (ie. an int)
       const entityType = parseInt($('input[name=entity-type]:checked').val())
-      let newRoute = '/' + entityType
-      if (isNotEmpty(query)) newRoute += '?q=' + query
-      if (isNotEmpty(artistQuery)) newRoute += '&aq=' + artistQuery
+      let queryParamStrings = []
+      if (isNotEmpty(query)) queryParamStrings.push('q=' + query)
+      if (isNotEmpty(artistQuery)) queryParamStrings.push('aq=' + artistQuery)
+      const newRoute = isNotEmpty(queryParamStrings)
+          ? '/' + entityType + '/?' + queryParamStrings.join('&')
+          : '/' + entityType
       this.props.history.push(newRoute)
       this.props.onChange(entityType, query, artistQuery)
     }, 300, {'maxWait': 1000})

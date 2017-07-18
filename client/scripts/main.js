@@ -38742,9 +38742,10 @@ var SearchBar = function (_React$Component) {
       var artistQuery = $('#artist-query-input').val();
       // ParseInt b/c we want entity type enum value (ie. an int)
       var entityType = parseInt($('input[name=entity-type]:checked').val());
-      var newRoute = '/' + entityType;
-      if ((0, _js_utils.isNotEmpty)(query)) newRoute += '?q=' + query;
-      if ((0, _js_utils.isNotEmpty)(artistQuery)) newRoute += '&aq=' + artistQuery;
+      var queryParamStrings = [];
+      if ((0, _js_utils.isNotEmpty)(query)) queryParamStrings.push('q=' + query);
+      if ((0, _js_utils.isNotEmpty)(artistQuery)) queryParamStrings.push('aq=' + artistQuery);
+      var newRoute = (0, _js_utils.isNotEmpty)(queryParamStrings) ? '/' + entityType + '/?' + queryParamStrings.join('&') : '/' + entityType;
       _this.props.history.push(newRoute);
       _this.props.onChange(entityType, query, artistQuery);
     }, 300, { 'maxWait': 1000 });
