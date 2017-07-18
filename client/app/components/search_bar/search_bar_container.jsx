@@ -35,8 +35,8 @@ class SearchBar extends React.Component {
     const boundOnChange = this.onChange.bind(this)
     return (
       <div id="search-bar">
-        <EntityTypePicker selectedType={this.props.entityType} onChange={boundOnChange}/>
         <div className="search-bar-main-input">
+          <EntityTypePicker selectedType={this.props.entityType} onChange={boundOnChange}/>
           <input id="main-query-input" type="text" onChange={boundOnChange}/>
         </div>
         {this.props.entityType !== EntityType.ARTIST

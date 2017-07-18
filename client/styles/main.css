@@ -27,7 +27,7 @@ body {
   display: flex;
   align-items: center;
   flex-grow: 1;
-  max-width: 480px;
+  margin-left: 8px;
 }
 
 .search-bar-main-input input {
@@ -37,22 +37,22 @@ body {
 }
 
 .search-bar-secondary-input {
-  height: 20px;
+  height: 24px;
   display: flex;
   align-items: center;
   flex-grow: 0.75;
-  max-width: 360px;
   margin-left: 8px;
 }
 
 .search-bar-secondary-input label {
   margin-right: 8px;
+  font-size: 16px;
 }
 
 .search-bar-secondary-input input {
   flex-grow: 0.75;
   height: 100%;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .entity-type-picker {
@@ -61,15 +61,15 @@ body {
 }
 
 .entity-type-radio-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 8px;
   margin: 0;
 }
 
 .entity-type-radio-button label {
+  display: flex;
+  align-items: center;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .search-bar-refresh-button {

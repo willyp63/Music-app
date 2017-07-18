@@ -5,13 +5,13 @@ import {EntityType} from '../../models/entities/entity'
 function getLabel(type) {
   switch (type) {
     case EntityType.RECORDING:
-      return 'Recording'
+      return 'Recording:'
     case EntityType.RELEASE:
-      return 'Release'
+      return 'Release:'
     case EntityType.RELEASE_GROUP:
-      return 'Release group'
+      return 'Release group:'
     case EntityType.ARTIST:
-      return 'Artist'
+      return 'Artist:'
     default:
       return ''
   }

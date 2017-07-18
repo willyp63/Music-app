@@ -38766,10 +38766,10 @@ var SearchBar = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { id: 'search-bar' },
-        _react2.default.createElement(_entity_type_picker2.default, { selectedType: this.props.entityType, onChange: boundOnChange }),
         _react2.default.createElement(
           'div',
           { className: 'search-bar-main-input' },
+          _react2.default.createElement(_entity_type_picker2.default, { selectedType: this.props.entityType, onChange: boundOnChange }),
           _react2.default.createElement('input', { id: 'main-query-input', type: 'text', onChange: boundOnChange })
         ),
         this.props.entityType !== _entity.EntityType.ARTIST ? _react2.default.createElement(
@@ -39254,13 +39254,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function getLabel(type) {
   switch (type) {
     case _entity.EntityType.RECORDING:
-      return 'Recording';
+      return 'Recording:';
     case _entity.EntityType.RELEASE:
-      return 'Release';
+      return 'Release:';
     case _entity.EntityType.RELEASE_GROUP:
-      return 'Release group';
+      return 'Release group:';
     case _entity.EntityType.ARTIST:
-      return 'Artist';
+      return 'Artist:';
     default:
       return '';
   }
