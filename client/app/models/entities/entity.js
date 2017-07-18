@@ -13,8 +13,8 @@ export default class Entity {
 }
 
 export function showField(field) {
-  // Don't show id fields
-  return field.match(/ids?$/i) === null
+  // Don't show id or type fields
+  return field.match(/ids?$/i) === null && field !== 'type'
 }
 
 export function isTimeField(field) {

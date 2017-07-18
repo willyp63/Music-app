@@ -6016,8 +6016,8 @@ var Entity = function Entity(id, type) {
 
 exports.default = Entity;
 function showField(field) {
-  // Don't show id fields
-  return field.match(/ids?$/i) === null;
+  // Don't show id or type fields
+  return field.match(/ids?$/i) === null && field !== 'type';
 }
 
 function isTimeField(field) {
