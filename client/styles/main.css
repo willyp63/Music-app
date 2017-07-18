@@ -1,0 +1,157 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.content {
+  background-color: #ddd;
+  overflow-y: scroll;
+}
+
+/* SEARCH BAR */
+
+#search-bar {
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  box-shadow: 0px 4px 5px #888888;
+  position: relative; // To show shadow
+}
+
+.search-bar-main-input {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  max-width: 480px;
+}
+
+.search-bar-main-input input {
+  flex-grow: 1;
+  height: 100%;
+  font-size: 18px;
+}
+
+.search-bar-secondary-input {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  flex-grow: 0.75;
+  max-width: 360px;
+  margin-left: 8px;
+}
+
+.search-bar-secondary-input label {
+  margin-right: 8px;
+}
+
+.search-bar-secondary-input input {
+  flex-grow: 0.75;
+  height: 100%;
+  font-size: 16px;
+}
+
+.entity-type-picker {
+  display: flex;
+  align-items: center;
+}
+
+.entity-type-radio-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  margin: 0;
+}
+
+.entity-type-radio-button label {
+  font-weight: bold;
+}
+
+.search-bar-refresh-button {
+  margin: 8px;
+  font-size: 16px;
+}
+
+/* ENTITY SHOW */
+
+.entity-show {
+  font-size: 18px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.entity-show-label {
+  font-weight: bold;
+}
+
+.entity-show-value {
+  padding-left: 24px;
+}
+
+.entity-show-value-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.entity-show-play-button {
+  font-size: 24px;
+  margin: 24px;
+}
+
+.entity-show-cover-image {
+  margin: 24px;
+}
+
+/* ENTITY INDEX */
+
+.entity-index-placeholder {
+  padding: 16px;
+  font-size: 20px;
+}
+
+.entity-index-item {
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  border-bottom: solid 1px #aaa;
+}
+
+.entity-index-item-detail-button {
+  font-size: 48px;
+  margin: 24px;
+}
+
+/* ENTITY SHOW */
+
+.entity-show {
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.entity-show-back-button {
+  font-size: 48px;
+  margin: 24px;
+}
+
+/* AUDIO PLAYER */
+
+#audio-player-bar {
+  background-color: #fbfbfb;
+  box-shadow: 0px -2px 5px #888888;
+  position: relative; // To show shadow
+}
+
+#audio-player-bar , .audio-player {
+  width: 100%;
+}
+
+.audio-player-track-info {
+  padding: 8px;
+}
