@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {isEmpty, isNotEmpty} from '../../util/js_utils'
 
-const sourceBaseUrl = 'http://localhost:8080/stream?ytid=';
+const sourceBaseUrl = '/stream?ytid='
 
 class Player extends React.Component {
   componentDidMount() {
