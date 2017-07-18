@@ -39526,10 +39526,13 @@ var sourceBaseUrl = '/stream?ytid=';
 var Player = function (_React$Component) {
   _inherits(Player, _React$Component);
 
-  function Player() {
+  function Player(props) {
     _classCallCheck(this, Player);
 
-    return _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
+
+    _this.state = { isPlaying: false };
+    return _this;
   }
 
   _createClass(Player, [{
@@ -39545,11 +39548,15 @@ var Player = function (_React$Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
+      var _this3 = this;
+
       if ((0, _js_utils.isNotEmpty)(newProps.song.ytid)) {
         var audioPlayer = $('.audio-player')[0];
         audioPlayer.load();
+        this.setState({ isPlaying: false });
         audioPlayer.addEventListener('canplay', function () {
           audioPlayer.play();
+          _this3.setState({ isPlaying: true });
         });
       }
       this.adjustContent();
@@ -39563,6 +39570,8 @@ var Player = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this4 = this;
+
       if ((0, _js_utils.isEmpty)(this.props.song)) {
         return _react2.default.createElement('div', { id: 'audio-player-bar' });
       }
@@ -39573,13 +39582,32 @@ var Player = function (_React$Component) {
         'div',
         { id: 'audio-player-bar' },
         _react2.default.createElement(
-          'div',
+          'span',
           { className: 'audio-player-track-info' },
           songName + ' - ' + ((0, _js_utils.isNotEmpty)(artistNames) ? artistNames.join(', ') : '')
         ),
         _react2.default.createElement(
+          'span',
+          null,
+          this.state.isPlaying ? _react2.default.createElement(
+            'button',
+            { className: 'btn btn-primary audio-player-button', onClick: function onClick() {
+                $('.audio-player')[0].pause();
+                _this4.setState({ isPlaying: false });
+              } },
+            '\u275A\u275A'
+          ) : _react2.default.createElement(
+            'button',
+            { className: 'btn btn-primary audio-player-button', onClick: function onClick() {
+                $('.audio-player')[0].play();
+                _this4.setState({ isPlaying: true });
+              } },
+            '\u25B6'
+          )
+        ),
+        _react2.default.createElement(
           'audio',
-          { className: 'audio-player', controls: true },
+          { className: 'audio-player' },
           (0, _js_utils.isNotEmpty)(ytid) ? _react2.default.createElement('source', { src: sourceBaseUrl + ytid }) : ''
         )
       );

@@ -5,6 +5,10 @@ import {isEmpty, isNotEmpty} from '../../util/js_utils'
 const sourceBaseUrl = '/stream?ytid='
 
 class Player extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {isPlaying: false}
+  }
   componentDidMount() {
     this.adjustContent()
     $(window).resize(() => this.adjustContent())
@@ -13,7 +17,11 @@ class Player extends React.Component {
     if (isNotEmpty(newProps.song.ytid)) {
       var audioPlayer = $('.audio-player')[0]
       audioPlayer.load()
-      audioPlayer.addEventListener('canplay', () => {audioPlayer.play()})
+      this.setState({isPlaying: false})
+      audioPlayer.addEventListener('canplay', () => {
+        audioPlayer.play()
+        this.setState({isPlaying: true})
+      })
     }
     this.adjustContent()
   }
@@ -30,10 +38,21 @@ class Player extends React.Component {
     const ytid = this.props.song.ytid
     return (
       <div id="audio-player-bar">
-        <div className="audio-player-track-info">
+        <span className="audio-player-track-info">
           {songName + ' - ' + (isNotEmpty(artistNames) ? artistNames.join(', ') : '')}
-        </div>
-        <audio className="audio-player" controls>
+        </span>
+        <span>
+          {this.state.isPlaying
+              ? (<button className="btn btn-primary audio-player-button" onClick={() => {
+                $('.audio-player')[0].pause()
+                this.setState({isPlaying: false})
+              }}>❚❚</button>)
+              : (<button className="btn btn-primary audio-player-button" onClick={() => {
+                $('.audio-player')[0].play()
+                this.setState({isPlaying: true})
+              }}>▶</button>)}
+        </span>
+        <audio className="audio-player">
           {isNotEmpty(ytid) ? <source src={sourceBaseUrl + ytid}/> : ''}
         </audio>
       </div>

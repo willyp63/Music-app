@@ -23,7 +23,7 @@ body {
 }
 
 .search-bar-main-input {
-  height: 24px;
+  height: 32px;
   display: flex;
   align-items: center;
   flex-grow: 1;
@@ -33,26 +33,24 @@ body {
 .search-bar-main-input input {
   flex-grow: 1;
   height: 100%;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .search-bar-secondary-input {
-  height: 24px;
+  height: 32px;
   display: flex;
   align-items: center;
-  flex-grow: 0.75;
   margin-left: 8px;
 }
 
 .search-bar-secondary-input label {
   margin-right: 8px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .search-bar-secondary-input input {
-  flex-grow: 0.75;
   height: 100%;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .entity-type-picker {
@@ -100,7 +98,7 @@ body {
 }
 
 .entity-show-play-button {
-  font-size: 24px;
+  font-size: 32px;
   margin: 24px;
 }
 
@@ -127,19 +125,6 @@ body {
   margin: 24px;
 }
 
-/* ENTITY SHOW */
-
-.entity-show {
-  padding: 16px;
-  display: flex;
-  align-items: flex-start;
-}
-
-.entity-show-back-button {
-  font-size: 48px;
-  margin: 24px;
-}
-
 /* AUDIO PLAYER */
 
 #audio-player-bar {
@@ -148,10 +133,12 @@ body {
   position: relative; // To show shadow
 }
 
-#audio-player-bar , .audio-player {
-  width: 100%;
+.audio-player-track-info {
+  font-size: 18px;
+  padding: 32px 32px;
 }
 
-.audio-player-track-info {
-  padding: 8px;
+.audio-player-button {
+  font-size: 32px;
+  margin: 8px;
 }
