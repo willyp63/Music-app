@@ -33454,7 +33454,7 @@ var _artist2 = _interopRequireDefault(_artist);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var nb = new _nodebrainz2.default({ userAgent: 'music-app/1.0.0 (http://localhost:8080/#/)' });
+var nb = new _nodebrainz2.default({ userAgent: 'wpirino-music-app/1.0.0 (https://wpirino-music-app.herokuapp.com/#/)' });
 
 function getTypeQueryString(type) {
   switch (type) {
@@ -33487,11 +33487,11 @@ function getTypeResponseField(type) {
 }
 
 var getQueryUrl = function getQueryUrl(entityTypeStr, queryStr) {
-  return 'http://musicbrainz.org/ws/2/' + entityTypeStr + '/?fmt=json&limit=10&query=' + queryStr;
+  return 'https://musicbrainz.org/ws/2/' + entityTypeStr + '/?fmt=json&limit=10&query=' + queryStr;
 };
 
 var getQueryByIdUrl = function getQueryByIdUrl(entityTypeStr, id) {
-  return 'http://musicbrainz.org/ws/2/' + entityTypeStr + '/' + id + '?fmt=json';
+  return 'https://musicbrainz.org/ws/2/' + entityTypeStr + '/' + id + '?fmt=json';
 };
 
 var getQueryString = function getQueryString(query) {

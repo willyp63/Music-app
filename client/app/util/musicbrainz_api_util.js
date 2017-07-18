@@ -7,7 +7,7 @@ import Release from '../models/entities/release'
 import ReleaseGroup from '../models/entities/release_group'
 import Artist from '../models/entities/artist'
 
-const nb = new NB({userAgent:'music-app/1.0.0 (http://localhost:8080/#/)'})
+const nb = new NB({userAgent:'wpirino-music-app/1.0.0 (https://wpirino-music-app.herokuapp.com/#/)'})
 
 function getTypeQueryString(type) {
   switch (type) {
@@ -40,10 +40,10 @@ function getTypeResponseField(type) {
 }
 
 const getQueryUrl = (entityTypeStr, queryStr) =>
-    'http://musicbrainz.org/ws/2/' + entityTypeStr + '/?fmt=json&limit=10&query=' + queryStr
+    'https://musicbrainz.org/ws/2/' + entityTypeStr + '/?fmt=json&limit=10&query=' + queryStr
 
 const getQueryByIdUrl = (entityTypeStr, id) =>
-    'http://musicbrainz.org/ws/2/' + entityTypeStr + '/' + id + '?fmt=json'
+    'https://musicbrainz.org/ws/2/' + entityTypeStr + '/' + id + '?fmt=json'
 
 const getQueryString = (query, field = '') => {
   if (field !== '') field += ':'
