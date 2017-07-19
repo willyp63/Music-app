@@ -30532,7 +30532,7 @@ var _js_utils = __webpack_require__(37);
 
 var _entity_types = __webpack_require__(344);
 
-var baseUrl = 'http://ws.audioscrobbler.com/2.0/';
+var baseUrl = 'https://ws.audioscrobbler.com/2.0/';
 var defaultQueryParams = {
   api_key: 'b384efbd0a1358eec2c055df63a186c0',
   format: 'json'

@@ -3,7 +3,7 @@ import {getUrlWithQueryParams} from './web_utils'
 import {isEmpty, isNotEmpty} from './js_utils'
 import {EntityType, entityTypeProperties} from './entity_types'
 
-const baseUrl = 'http://ws.audioscrobbler.com/2.0/'
+const baseUrl = 'https://ws.audioscrobbler.com/2.0/'
 const defaultQueryParams = {
   api_key: 'b384efbd0a1358eec2c055df63a186c0',
   format: 'json'
