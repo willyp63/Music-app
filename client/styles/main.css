@@ -93,6 +93,11 @@ body {
   align-items: center;
   padding: 8px;
   height: 128px;
+  border-bottom: 1px solid #ccc;
+}
+
+.entity-index-item:last-child {
+  border-bottom: 0;
 }
 
 .entity-index-item-name {

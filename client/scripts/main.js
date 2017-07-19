@@ -30277,14 +30277,14 @@ var SearchForm = function (_React$Component) {
           { className: 'row' },
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-2 col-md-2' },
+            { className: 'col-xs-1 col-md-2' },
             _react2.default.createElement('img', { src: 'http://www.clker.com/cliparts/M/B/X/W/R/H/headphones-md.png',
               width: '32',
               height: '32' })
           ),
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-10 col-md-8' },
+            { className: 'col-xs-11 col-md-8' },
             _react2.default.createElement(
               'div',
               { className: 'input-group', id: 'adv-search' },
