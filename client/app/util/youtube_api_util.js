@@ -1,6 +1,3 @@
-import Recording from '../models/entities/recording'
-import Release from '../models/entities/release'
-
 window.onGapiClientLoad = function () {
   gapi.client.load('youtube', 'v3', function () {
     gapi.client.setApiKey('AIzaSyDjAO8CZLZ6zS9ozFqtkKvjncFJUxDESzY')

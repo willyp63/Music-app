@@ -6,7 +6,7 @@ import EntityIndexItem from './entity_index_item'
 import {playSong} from '../../actions/player_actions'
 
 const EntityIndex = ({entities, onSongPlay, history}) => {
-  const orderedEntities = Object.values(entities).sort((a, b) => b.score - a.score)
+  const orderedEntities = Object.values(entities).sort((a, b) => a.order - b.order)
   const content = orderedEntities.map((entity) => {
     return (
       <EntityIndexItem key={entity.id}
