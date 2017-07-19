@@ -20,6 +20,7 @@ class SearchForm extends React.Component {
   onQueryTypeChange () {
     const selectedType = parseInt($('#query-type-select option:selected').val())
     this.setState({queryType: selectedType})
+    this.props.onQuery()
   }
   render() {
     const queryTypeOptions = Object.values(EntityType).map((type) => {
@@ -33,7 +34,11 @@ class SearchForm extends React.Component {
         ? (
           <div className="form-group">
             <label>Artist</label>
-            <input className="form-control" id="artist-query-input" type="text" />
+            <input className="form-control"
+                   id="artist-query-input"
+                   type="text"
+                   autoComplete="off"
+                   onChange={this.props.onQuery} />
           </div>
         ) : ''
     return (
@@ -44,8 +49,9 @@ class SearchForm extends React.Component {
               <input type="text"
                      className="form-control"
                      id="main-query-input"
-                     onChange={this.props.onQuery}
-                     placeholder={placeholder} />
+                     autoComplete="off"
+                     placeholder={placeholder}
+                     onChange={this.props.onQuery} />
               <div className="input-group-btn">
                 <div className="btn-group" role="group">
                   <div className="dropdown dropdown-lg">
@@ -67,9 +73,6 @@ class SearchForm extends React.Component {
                           </select>
                         </div>
                         {additionalInputs}
-                        <button type="submit" className="btn btn-primary" onClick={this.props.onQuery}>
-                          <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </button>
                       </form>
                     </div>
                   </div>

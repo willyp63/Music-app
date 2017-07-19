@@ -30115,25 +30115,21 @@ var EntityIndexItem = function EntityIndexItem(_ref) {
   ) : '';
   return _react2.default.createElement(
     'div',
-    { className: 'container' },
+    { className: 'row entity-index-item' },
     _react2.default.createElement(
       'div',
-      { className: 'row entity-index-item' },
-      _react2.default.createElement(
-        'div',
-        { className: 'col-md-2' },
-        image
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'col-md-4 entity-index-item-name' },
-        renderedName
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'col-md-2' },
-        playButton
-      )
+      { className: 'col-md-3' },
+      image
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'col-md-6 entity-index-item-name' },
+      renderedName
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'col-md-3' },
+      playButton
     )
   );
 };
@@ -30240,6 +30236,7 @@ var SearchForm = function (_React$Component) {
     value: function onQueryTypeChange() {
       var selectedType = parseInt($('#query-type-select option:selected').val());
       this.setState({ queryType: selectedType });
+      this.props.onQuery();
     }
   }, {
     key: 'render',
@@ -30261,7 +30258,11 @@ var SearchForm = function (_React$Component) {
           null,
           'Artist'
         ),
-        _react2.default.createElement('input', { className: 'form-control', id: 'artist-query-input', type: 'text' })
+        _react2.default.createElement('input', { className: 'form-control',
+          id: 'artist-query-input',
+          type: 'text',
+          autoComplete: 'off',
+          onChange: this.props.onQuery })
       ) : '';
       return _react2.default.createElement(
         'div',
@@ -30278,8 +30279,9 @@ var SearchForm = function (_React$Component) {
               _react2.default.createElement('input', { type: 'text',
                 className: 'form-control',
                 id: 'main-query-input',
-                onChange: this.props.onQuery,
-                placeholder: placeholder }),
+                autoComplete: 'off',
+                placeholder: placeholder,
+                onChange: this.props.onQuery }),
               _react2.default.createElement(
                 'div',
                 { className: 'input-group-btn' },
@@ -30320,12 +30322,7 @@ var SearchForm = function (_React$Component) {
                             queryTypeOptions
                           )
                         ),
-                        additionalInputs,
-                        _react2.default.createElement(
-                          'button',
-                          { type: 'submit', className: 'btn btn-primary', onClick: this.props.onQuery },
-                          _react2.default.createElement('span', { className: 'glyphicon glyphicon-search', 'aria-hidden': 'true' })
-                        )
+                        additionalInputs
                       )
                     )
                   ),
@@ -30482,7 +30479,7 @@ var Player = function (_React$Component) {
           { className: 'row audio-player' },
           _react2.default.createElement(
             'div',
-            { className: 'col-md-9 audio-player-track-info' },
+            { className: 'col-xs-8 col-md-8 audio-player-track-info' },
             _react2.default.createElement(
               'div',
               null,
@@ -30491,7 +30488,7 @@ var Player = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'col-md-3 audio-player-button' },
+            { className: 'col-xs-4 col-md-4 audio-player-button' },
             playerButton
           )
         ),

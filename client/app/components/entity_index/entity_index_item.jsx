@@ -17,17 +17,15 @@ const EntityIndexItem = ({entity, onSongPlay}) => {
         </button>
       ) : ''
   return (
-    <div className="container">
-      <div className="row entity-index-item">
-        <div className="col-md-2">
-          {image}
-        </div>
-        <div className="col-md-4 entity-index-item-name">
-          {renderedName}
-        </div>
-        <div className="col-md-2">
-          {playButton}
-        </div>
+    <div className="row entity-index-item">
+      <div className="col-md-3">
+        {image}
+      </div>
+      <div className="col-md-6 entity-index-item-name">
+        {renderedName}
+      </div>
+      <div className="col-md-3">
+        {playButton}
       </div>
     </div>
   )
