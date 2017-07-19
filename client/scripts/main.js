@@ -30146,10 +30146,10 @@ var Player = function (_React$Component) {
         { className: 'container' },
         _react2.default.createElement(
           'div',
-          { className: 'row audio-player' },
+          { className: 'row audio-player-top-row' },
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-7 col-md-4 audio-player-track-info' },
+            { className: 'col-xs-6 col-md-8 audio-player-track-info' },
             _react2.default.createElement(
               'div',
               null,
@@ -30158,22 +30158,26 @@ var Player = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-0 col-md-4' },
+            { className: 'col-xs-6 col-md-4 audio-player-buttons' },
+            playerButtons
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-12' },
             _react2.default.createElement(
               'div',
               { className: 'progress audio-player-progress-bar' },
-              _react2.default.createElement('div', { className: 'progress-bar progress-bar-striped active',
+              _react2.default.createElement('div', { className: 'progress-bar',
                 role: 'progressbar',
                 'aria-valuenow': this.state.currentProgress,
                 'aria-valuemin': '0',
                 'aria-valuemax': '100',
                 style: { width: currentProgressPercent } })
             )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'col-xs-5 col-md-4 audio-player-buttons' },
-            playerButtons
           )
         ),
         _react2.default.createElement(

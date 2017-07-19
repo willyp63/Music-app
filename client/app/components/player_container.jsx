@@ -85,13 +85,18 @@ class Player extends React.Component {
     const currentProgressPercent = this.state.currentProgress + '%'
     return (
       <div className="container">
-      	<div className="row audio-player">
-      		<div className="col-xs-7 col-md-4 audio-player-track-info">
+      	<div className="row audio-player-top-row">
+      		<div className="col-xs-6 col-md-8 audio-player-track-info">
             <div>{this.props.song.artist + ' - ' + this.props.song.name}</div>
           </div>
-          <div className="col-xs-0 col-md-4">
+          <div className="col-xs-6 col-md-4 audio-player-buttons">
+            {playerButtons}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
             <div className="progress audio-player-progress-bar">
-              <div className="progress-bar progress-bar-striped active"
+              <div className="progress-bar"
                    role="progressbar"
                    aria-valuenow={this.state.currentProgress}
                    aria-valuemin="0"
@@ -99,9 +104,6 @@ class Player extends React.Component {
                    style={{width: currentProgressPercent}}>
               </div>
             </div>
-          </div>
-          <div className="col-xs-5 col-md-4 audio-player-buttons">
-            {playerButtons}
           </div>
         </div>
         <audio id="audio-player" autoPlay>{audioSource}</audio>
