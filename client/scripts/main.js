@@ -30250,7 +30250,7 @@ var SearchForm = function (_React$Component) {
         );
       });
       var placeholder = _entity_types.entityTypeProperties[this.state.queryType].placeHolderString;
-      var additionalInputs = this.state.queryType !== _entity_types.EntityType.ARTIST ? _react2.default.createElement(
+      var additionalInputs = this.state.queryType === _entity_types.EntityType.TRACK ? _react2.default.createElement(
         'div',
         { className: 'form-group' },
         _react2.default.createElement(
@@ -30272,7 +30272,14 @@ var SearchForm = function (_React$Component) {
           { className: 'row' },
           _react2.default.createElement(
             'div',
-            { className: 'col-md-12' },
+            { className: 'col-xs-2 col-md-2' },
+            _react2.default.createElement('img', { src: 'http://www.clker.com/cliparts/M/B/X/W/R/H/headphones-md.png',
+              width: '32',
+              height: '32' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-10 col-md-8' },
             _react2.default.createElement(
               'div',
               { className: 'input-group', id: 'adv-search' },
@@ -30334,7 +30341,8 @@ var SearchForm = function (_React$Component) {
                 )
               )
             )
-          )
+          ),
+          _react2.default.createElement('div', { className: 'col-xs-0 col-md-2' })
         )
       );
     }

@@ -11,29 +11,6 @@ body {
   background-color: #eee;
 }
 
-#player-bar {
-  position: relative;
-  box-shadow: 0 -2px 5px #888;
-}
-
-.audio-player {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.audio-player-track-info {
-  font-size: 20px;
-}
-
-.audio-player-button {
-  padding: 8px;
-}
-
-.audio-player-button button {
-  width: 100%;
-}
-
 /* Search bar */
 
 #search-bar {
@@ -81,6 +58,32 @@ body {
     .dropdown.dropdown-lg .dropdown-menu {
         min-width: 500px;
     }
+}
+
+/* Player bar */
+
+#player-bar {
+  position: relative;
+  box-shadow: 0 -2px 5px #888;
+}
+
+.audio-player {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.audio-player-track-info {
+  font-size: 20px;
+}
+
+.audio-player-button {
+  padding: 8px;
+}
+
+.audio-player-button button {
+  width: 100%;
+  font-size: 20px;
 }
 
 /* Entity index */
