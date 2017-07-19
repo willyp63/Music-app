@@ -13162,7 +13162,7 @@ var App = function (_React$Component) {
               _react2.default.createElement(
                 _reactRouterDom.Switch,
                 null,
-                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _entity_index_container2.default })
+                _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _entity_index_container2.default })
               )
             ),
             _react2.default.createElement('div', { className: 'col-md-2' })

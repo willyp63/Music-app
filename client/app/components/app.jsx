@@ -23,7 +23,7 @@ class App extends React.Component {
             <div className="col-md-2"></div>
             <div className="col-md-8">
               <Switch>
-                <Route exact path="/" component={EntityIndexContainer} />
+                <Route path="/" component={EntityIndexContainer} />
               </Switch>
             </div>
             <div className="col-md-2"></div>
