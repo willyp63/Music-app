@@ -30200,6 +30200,8 @@ var _lodash = __webpack_require__(335);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _jquery_utils = __webpack_require__(348);
+
 var _entity_actions = __webpack_require__(76);
 
 var _entity_types = __webpack_require__(344);
@@ -30288,6 +30290,8 @@ var SearchForm = function (_React$Component) {
                 id: 'main-query-input',
                 autoComplete: 'off',
                 placeholder: placeholder,
+                onFocus: _jquery_utils.resizeAppContent,
+                onBlur: _jquery_utils.resizeAppContent,
                 onChange: this.props.onQuery }),
               _react2.default.createElement(
                 'div',

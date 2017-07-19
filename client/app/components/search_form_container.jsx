@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 
 import debounce from 'lodash.debounce'
 
+import {resizeAppContent} from '../util/jquery_utils'
+
 import {fetchEntities} from '../actions/entity_actions'
 import {EntityType, entityTypeProperties} from '../util/entity_types'
 import {getUrlWithQueryParams} from '../util/web_utils'
@@ -56,6 +58,8 @@ class SearchForm extends React.Component {
                      id="main-query-input"
                      autoComplete="off"
                      placeholder={placeholder}
+                     onFocus={resizeAppContent}
+                     onBlur={resizeAppContent}
                      onChange={this.props.onQuery} />
               <div className="input-group-btn">
                 <div className="btn-group" role="group">
