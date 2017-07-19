@@ -30099,6 +30099,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _js_utils = __webpack_require__(37);
 
+var _entity_types = __webpack_require__(344);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var EntityIndexItem = function EntityIndexItem(_ref) {
@@ -30108,7 +30110,7 @@ var EntityIndexItem = function EntityIndexItem(_ref) {
   if ((0, _js_utils.isEmpty)(entity)) return null;
   var image = (0, _js_utils.isNotEmpty)(entity.image) ? _react2.default.createElement('img', { className: 'entity-index-item-image', src: entity.image[1]['#text'] }) : '';
   var renderedName = (0, _js_utils.isNotEmpty)(entity.artist) ? entity.artist + ' - ' + entity.name : entity.name;
-  var playButton = (0, _js_utils.isNotEmpty)(entity.name) && (0, _js_utils.isNotEmpty)(entity.artist) ? _react2.default.createElement(
+  var playButton = entity.type === _entity_types.EntityType.TRACK ? _react2.default.createElement(
     'button',
     { type: 'button', className: 'btn btn-primary entity-index-item-play-button', onClick: onSongPlay },
     _react2.default.createElement('span', { className: 'glyphicon glyphicon-play', 'aria-hidden': 'true' })
@@ -30118,17 +30120,17 @@ var EntityIndexItem = function EntityIndexItem(_ref) {
     { className: 'row entity-index-item' },
     _react2.default.createElement(
       'div',
-      { className: 'col-md-3' },
+      { className: 'col-xs-3 col-md-3' },
       image
     ),
     _react2.default.createElement(
       'div',
-      { className: 'col-md-6 entity-index-item-name' },
+      { className: 'col-xs-6 col-md-6 entity-index-item-name' },
       renderedName
     ),
     _react2.default.createElement(
       'div',
-      { className: 'col-md-3' },
+      { className: 'col-xs-3 col-md-3' },
       playButton
     )
   );
@@ -30571,6 +30573,9 @@ function getEntities(_ref, onResponse) {
   $.get(queryUrl, function (response) {
     var responseFieldName = _entity_types.entityTypeProperties[queryType].lastFMresponseFieldName;
     var results = response.results[responseFieldName][queryFieldName];
+    results.forEach(function (result) {
+      result.type = queryType;
+    });
     onResponse(results);
   });
 }

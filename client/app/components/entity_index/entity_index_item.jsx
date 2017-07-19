@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {isEmpty, isNotEmpty} from '../../util/js_utils'
+import {EntityType} from '../../util/entity_types'
 
 const EntityIndexItem = ({entity, onSongPlay}) => {
   if (isEmpty(entity)) return null
@@ -10,7 +11,7 @@ const EntityIndexItem = ({entity, onSongPlay}) => {
   const renderedName = isNotEmpty(entity.artist)
       ? entity.artist + ' - ' + entity.name
       : entity.name
-  const playButton = isNotEmpty(entity.name) && isNotEmpty(entity.artist)
+  const playButton = entity.type === EntityType.TRACK
       ? (
         <button type="button" className="btn btn-primary entity-index-item-play-button" onClick={onSongPlay}>
           <span className="glyphicon glyphicon-play" aria-hidden="true"></span>
@@ -18,13 +19,13 @@ const EntityIndexItem = ({entity, onSongPlay}) => {
       ) : ''
   return (
     <div className="row entity-index-item">
-      <div className="col-md-3">
+      <div className="col-xs-3 col-md-3">
         {image}
       </div>
-      <div className="col-md-6 entity-index-item-name">
+      <div className="col-xs-6 col-md-6 entity-index-item-name">
         {renderedName}
       </div>
-      <div className="col-md-3">
+      <div className="col-xs-3 col-md-3">
         {playButton}
       </div>
     </div>

@@ -25,6 +25,9 @@ export function getEntities({queryType, query, artistQuery}, onResponse) {
   $.get(queryUrl, function(response) {
     const responseFieldName = entityTypeProperties[queryType].lastFMresponseFieldName
     const results = response.results[responseFieldName][queryFieldName]
+    results.forEach((result) => {
+      result.type = queryType
+    })
     onResponse(results)
   })
 }
