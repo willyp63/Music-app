@@ -40,6 +40,7 @@ class SearchForm extends React.Component {
                    id="artist-query-input"
                    type="text"
                    autoComplete="off"
+                   onBlur={resizeAppContent}
                    onChange={this.props.onQuery} />
           </div>
         ) : ''
@@ -58,7 +59,6 @@ class SearchForm extends React.Component {
                      id="main-query-input"
                      autoComplete="off"
                      placeholder={placeholder}
-                     onFocus={resizeAppContent}
                      onBlur={resizeAppContent}
                      onChange={this.props.onQuery} />
               <div className="input-group-btn">
@@ -77,6 +77,7 @@ class SearchForm extends React.Component {
                           <select className="form-control"
                                   id="query-type-select"
                                   value={this.state.queryType}
+                                  onBlur={resizeAppContent}
                                   onChange={this.onQueryTypeChange.bind(this)}>
                             {queryTypeOptions}
                           </select>

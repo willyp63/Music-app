@@ -30264,6 +30264,7 @@ var SearchForm = function (_React$Component) {
           id: 'artist-query-input',
           type: 'text',
           autoComplete: 'off',
+          onBlur: _jquery_utils.resizeAppContent,
           onChange: this.props.onQuery })
       ) : '';
       return _react2.default.createElement(
@@ -30290,7 +30291,6 @@ var SearchForm = function (_React$Component) {
                 id: 'main-query-input',
                 autoComplete: 'off',
                 placeholder: placeholder,
-                onFocus: _jquery_utils.resizeAppContent,
                 onBlur: _jquery_utils.resizeAppContent,
                 onChange: this.props.onQuery }),
               _react2.default.createElement(
@@ -30329,6 +30329,7 @@ var SearchForm = function (_React$Component) {
                             { className: 'form-control',
                               id: 'query-type-select',
                               value: this.state.queryType,
+                              onBlur: _jquery_utils.resizeAppContent,
                               onChange: this.onQueryTypeChange.bind(this) },
                             queryTypeOptions
                           )
