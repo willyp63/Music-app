@@ -30149,7 +30149,7 @@ var Player = function (_React$Component) {
           { className: 'row audio-player' },
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-6 col-md-3 audio-player-track-info' },
+            { className: 'col-xs-7 col-md-4 audio-player-track-info' },
             _react2.default.createElement(
               'div',
               null,
@@ -30158,7 +30158,7 @@ var Player = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-0 col-md-6' },
+            { className: 'col-xs-0 col-md-4' },
             _react2.default.createElement(
               'div',
               { className: 'progress audio-player-progress-bar' },
@@ -30172,7 +30172,7 @@ var Player = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-6 col-md-3 audio-player-buttons' },
+            { className: 'col-xs-5 col-md-4 audio-player-buttons' },
             playerButtons
           )
         ),
