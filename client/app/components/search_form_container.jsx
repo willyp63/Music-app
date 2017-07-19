@@ -47,12 +47,12 @@ class SearchForm extends React.Component {
     return (
       <div className="container">
       	<div className="row">
-          <div className="col-xs-1 col-md-2">
+          <div className="col-xs-2 col-md-2">
             <img src="http://www.clker.com/cliparts/M/B/X/W/R/H/headphones-md.png"
                  width="32"
                  height="32"/>
           </div>
-      		<div className="col-xs-11 col-md-8">
+      		<div className="col-xs-10 col-md-8">
             <div className="input-group" id="adv-search">
               <input type="text"
                      className="form-control"
@@ -93,7 +93,6 @@ class SearchForm extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-xs-0 col-md-2"></div>
         </div>
     	</div>
     )
