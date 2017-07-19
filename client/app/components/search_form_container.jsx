@@ -1,38 +1,38 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import debounce from 'lodash.debounce'
+import { adjustScrollContainerHeightToFit } from '../util/dom/app'
+import { getUrlWithQueryParams } from '../util/misc/string'
 
-import {resizeAppContent} from '../util/jquery_utils'
-
-import {fetchEntities} from '../actions/entity_actions'
-import {EntityType, entityTypeProperties} from '../util/entity_types'
-import {getUrlWithQueryParams} from '../util/web_utils'
+import { fetchEntities } from '../actions/entity_actions'
+import ENTITY_TYPE from '../entities/type'
+import SEARCH_ENTITY_SCHEMA from '../entities/schemas/search'
 
 const QUERY_DEBOUNCE_TIME = 300
 const QUERY_MAX_WAIT_TIME = 1000
+
+function getSelectedEntityType() {
+  return parseInt($('#query-type-select option:selected').val())
+}
 
 class SearchForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      queryType: EntityType.TRACK
+      entityType: ENTITY_TYPE.TRACK
     }
   }
   onQueryTypeChange () {
-    const selectedType = parseInt($('#query-type-select option:selected').val())
-    this.setState({queryType: selectedType})
+    this.setState({entityType: getSelectedEntityType()})
     this.props.onQuery()
   }
   render() {
-    const queryTypeOptions = Object.values(EntityType).map((type) => {
-      const typeProperties = entityTypeProperties[type]
-      return (
-        <option value={type} key={type}>{typeProperties.label}</option>
-      )
+    const entityTypeOptions = Object.values(ENTITY_TYPE).map((type) => {
+      return (<option value={type} key={type}>{SEARCH_ENTITY_SCHEMA[type].label}</option>)
     })
-    const placeholder = entityTypeProperties[this.state.queryType].placeHolderString
-    const additionalInputs = this.state.queryType === EntityType.TRACK
+    const placeholder = SEARCH_ENTITY_SCHEMA[this.state.entityType].placeHolderString
+    const additionalInputs = this.state.entityType === ENTITY_TYPE.TRACK
         ? (
           <div className="form-group">
             <label>Artist</label>
@@ -40,7 +40,7 @@ class SearchForm extends React.Component {
                    id="artist-query-input"
                    type="text"
                    autoComplete="off"
-                   onBlur={resizeAppContent}
+                   onBlur={adjustScrollContainerHeightToFit}
                    onChange={this.props.onQuery} />
           </div>
         ) : ''
@@ -59,7 +59,7 @@ class SearchForm extends React.Component {
                      id="main-query-input"
                      autoComplete="off"
                      placeholder={placeholder}
-                     onBlur={resizeAppContent}
+                     onBlur={adjustScrollContainerHeightToFit}
                      onChange={this.props.onQuery} />
               <div className="input-group-btn">
                 <div className="btn-group" role="group">
@@ -76,10 +76,10 @@ class SearchForm extends React.Component {
                           <label>Search for</label>
                           <select className="form-control"
                                   id="query-type-select"
-                                  value={this.state.queryType}
-                                  onBlur={resizeAppContent}
+                                  value={this.state.entityType}
+                                  onBlur={adjustScrollContainerHeightToFit}
                                   onChange={this.onQueryTypeChange.bind(this)}>
-                            {queryTypeOptions}
+                            {entityTypeOptions}
                           </select>
                         </div>
                         {additionalInputs}
@@ -103,9 +103,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onQuery: debounce(() => {
       dispatch(fetchEntities({
+        entityType: getSelectedEntityType(),
         query: $('#main-query-input').val(),
-        artistQuery: $('#artist-query-input').val(),
-        queryType: parseInt($('#query-type-select option:selected').val())
+        artistQuery: $('#artist-query-input').val()
       }))
     }, QUERY_DEBOUNCE_TIME, {'maxWait': QUERY_MAX_WAIT_TIME})
   }

@@ -1,0 +1,20 @@
+.entity-index-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+.entity-index-item:last-child {
+  border-bottom: 0;
+}
+
+.entity-index-item-name {
+  font-weight: bold;
+}
+
+.entity-index-item-image {
+  width: 100%;
+  max-width: 128px;
+  height: auto;
+}

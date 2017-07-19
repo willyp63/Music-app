@@ -1,0 +1,31 @@
+#player-bar {
+  position: relative; /* To show shadow over #scroll-container */
+  z-index: 1000; /* Same as above */
+  box-shadow: 0 -2px 5px #888;
+}
+
+.audio-player-top-row {
+  display: flex;
+  align-items: center;
+}
+
+.audio-player-track-info {
+  font-size: 20px;
+}
+
+.audio-player-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.audio-player-buttons button {
+  flex-grow: 1;
+  font-size: 20px;
+  margin: 8px 4px;
+}
+
+.audio-player-progress-bar {
+  height: 32px;
+  margin: 8px;
+}

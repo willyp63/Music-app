@@ -5,10 +5,13 @@ export function isEmpty(value) {
   } else if (typeof value === 'string') {
     return value === ''
   } else if (typeof value === 'object') {
+    // This is questionable...
     return isEmpty(Object.keys(value))
   } else {
     return false
   }
 }
 
-export const isNotEmpty = (strOrArr) => !isEmpty(strOrArr)
+export function isNotEmpty(value) {
+  return !isEmpty(value)
+}

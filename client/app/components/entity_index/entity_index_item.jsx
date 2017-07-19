@@ -1,37 +1,49 @@
 import React from 'react'
 
-import {isEmpty, isNotEmpty} from '../../util/js_utils'
-import {EntityType} from '../../util/entity_types'
+import { isEmpty, isNotEmpty } from '../../util/misc/empty'
+import INDEX_ENTITY_SCHEMA from '../../entities/schemas/index'
 
-const EntityIndexItem = ({entity, onSongPlay}) => {
-  if (isEmpty(entity)) return null
-  const image = isNotEmpty(entity.image)
-      ? (<img className="entity-index-item-image" src={entity.image[1]['#text']}/>)
-      : ''
-  const renderedName = isNotEmpty(entity.artist)
-      ? entity.artist + ' - ' + entity.name
-      : entity.name
-  const playButton = entity.type === EntityType.TRACK
-      ? (
-        <button type="button" className="btn btn-primary entity-index-item-play-button" onClick={onSongPlay}>
-          <span className="glyphicon glyphicon-play" aria-hidden="true"></span>
-        </button>
-      ) : ''
+function getColumn(entity, field, fieldProperties, props) {
+  let classNames = []
+  if (isNotEmpty(fieldProperties.width.xs)) {
+    classNames.push('col-xs-' + fieldProperties.width.xs)
+  }
+  if (isNotEmpty(fieldProperties.width.md)) {
+    classNames.push('col-md-' + fieldProperties.width.md)
+  }
+
+  const dependentFields = {}
+  if(isNotEmpty(fieldProperties.dependentFields)) {
+    fieldProperties.dependentFields.forEach((dependentField) => {
+      dependentFields[dependentField] = entity[dependentField]
+    })
+  }
+
+  const formatter = fieldProperties.formatter
   return (
-    <div className="row entity-index-item">
-      <div className="col-xs-3 col-md-3">
-        {image}
-      </div>
-      <div className="col-xs-6 col-md-6 entity-index-item-name">
-        {renderedName}
-      </div>
-      <div className="col-xs-3 col-md-3">
-        {playButton}
-      </div>
+    <div key={field} className={classNames.join(' ')}>
+      {formatter(entity[field], dependentFields, props)}
     </div>
   )
 }
 
-
+const EntityIndexItem = ({entity, onTrackPlay}) => {
+  if (isEmpty(entity)) return null
+  const columns = []
+  const typeSchema = INDEX_ENTITY_SCHEMA[entity.type]
+  Object.keys(typeSchema)
+      .sort((a, b) => typeSchema[a].order - typeSchema[b].order)
+      .forEach((field) => {
+    const fieldProperties = typeSchema[field]
+    if (fieldProperties.visible) {
+      columns.push(getColumn(entity, field, fieldProperties, {onTrackPlay}))
+    }
+  })
+  return (
+    <div className="row entity-index-item">
+      {columns}
+    </div>
+  )
+}
 
 export default EntityIndexItem

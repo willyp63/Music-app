@@ -1,19 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import {HashRouter} from 'react-router-dom'
-import {createStore, combineReducers, applyMiddleware} from 'redux'
-import {createHashHistory} from 'history'
+import { Provider } from 'react-redux'
+import { HashRouter } from 'react-router-dom'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createHashHistory } from 'history'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 
 import App from './components/app'
-import {entities, playingSong} from './reducers'
+import entities from './reducers/entities'
+import playingTrack from './reducers/playing_track'
 
 const store = createStore(
   combineReducers({
     entities,
-    playingSong
+    playingTrack
   }),
   {},
   applyMiddleware(thunk, logger)

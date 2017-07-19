@@ -1,17 +1,17 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {isEmpty} from '../../util/js_utils'
+import { connect } from 'react-redux'
+import { isEmpty } from '../../util/misc/empty'
 
 import EntityIndexItem from './entity_index_item'
-import {playSong} from '../../actions/player_actions'
+import { playTrack } from '../../actions/player_actions'
 
-const EntityIndex = ({entities, onSongPlay, history}) => {
+const EntityIndex = ({entities, onTrackPlay}) => {
   const orderedEntities = Object.values(entities).sort((a, b) => a.order - b.order)
   const content = orderedEntities.map((entity) => {
     return (
-      <EntityIndexItem key={entity.id}
+      <EntityIndexItem key={entity.mbid}
                        entity={entity}
-                       onSongPlay={() => onSongPlay(entity)}/>
+                       onTrackPlay={() => onTrackPlay(entity)}/>
     )
   })
   return (
@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSongPlay: (entity) => dispatch(playSong(entity))
+    onTrackPlay: (entity) => dispatch(playTrack(entity))
   }
 }
 

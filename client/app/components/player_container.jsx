@@ -1,10 +1,12 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {isEmpty, isNotEmpty} from '../util/js_utils'
+import { connect } from 'react-redux'
+import { isEmpty, isNotEmpty } from '../util/misc/empty'
 
-import {resizeAppContent} from '../util/jquery_utils'
+import { adjustScrollContainerHeightToFit } from '../util/dom/app'
 
-const sourceBaseUrl = '/stream?ytid='
+const STREAM_BASE_URL = '/stream?ytid='
+
+const AUTO_PLAY = false
 
 class Player extends React.Component {
   constructor(props) {
@@ -28,14 +30,14 @@ class Player extends React.Component {
   }
   updateCurrentProgress() {
     const player = this.getAudioPlayer()
-    const trackDuration = this.props.song.duration / 1000
+    const trackDuration = this.props.track.duration / 1000
     const currentProgress = isNotEmpty(player)
         ? Math.floor(player.currentTime / trackDuration * 100)
         : 0
     this.setState({currentProgress})
   }
   componentWillReceiveProps(newProps) {
-    if (isNotEmpty(newProps.song.ytid)) {
+    if (isNotEmpty(newProps.track.ytid)) {
       const player = this.getAudioPlayer()
       if (isEmpty(player)) return
       player.load()
@@ -43,15 +45,15 @@ class Player extends React.Component {
       player.addEventListener('pause', () => this.setState({isPlaying: false}))
       setInterval(this.updateCurrentProgress.bind(this), 1000)
     }
-    resizeAppContent()
+    adjustScrollContainerHeightToFit()
   }
   componentWillUpdate() {
-    resizeAppContent()
+    adjustScrollContainerHeightToFit()
   }
   render() {
-    if (isEmpty(this.props.song)) return null
+    if (isEmpty(this.props.track)) return null
     let playerButtons = []
-    if (isEmpty(this.props.song.ytid)) {
+    if (isEmpty(this.props.track.ytid)) {
       playerButtons.push(<button type="button"
                                  className="btn btn-primary">
                            <span className="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
@@ -79,15 +81,15 @@ class Player extends React.Component {
                            <span className="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
                          </button>)
     }
-    const audioSource = isNotEmpty(this.props.song.ytid)
-        ? (<source src={sourceBaseUrl + this.props.song.ytid}/>)
+    const audioSource = isNotEmpty(this.props.track.ytid)
+        ? (<source src={STREAM_BASE_URL + this.props.track.ytid}/>)
         : ''
     const currentProgressPercent = this.state.currentProgress + '%'
     return (
       <div className="container">
       	<div className="row audio-player-top-row">
       		<div className="col-xs-6 col-md-8 audio-player-track-info">
-            <div>{this.props.song.artist + ' - ' + this.props.song.name}</div>
+            <div>{this.props.track.artist + ' - ' + this.props.track.name}</div>
           </div>
           <div className="col-xs-6 col-md-4 audio-player-buttons">
             {playerButtons}
@@ -114,7 +116,7 @@ class Player extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    song: state.playingSong
+    track: state.playingTrack
   }
 }
 

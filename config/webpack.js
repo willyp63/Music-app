@@ -8,7 +8,7 @@ module.exports = {
   entry: APP_ENTRY_PATH,
   output: {
     path: SCRIPTS_PATH,
-    filename: "main.js"
+    filename: "app.js"
   },
   resolve: {
     extensions: [".js", ".jsx"]

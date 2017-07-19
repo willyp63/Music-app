@@ -1,19 +1,28 @@
-import {getYtid} from '../util/youtube_api_util'
-import {fetchEntityInfo} from './entity_actions'
+import { getYtid } from '../util/api/youtube'
+import { fetchEntityInfo } from './entity_actions'
+import ENTITY_TYPE from '../entities/type'
 
-export function playSong(song) {
+export function playTrack(track) {
+  if (track.type !== ENTITY_TYPE.TRACK) {
+    console.error('Tried playing an entity other than Track!!!')
+    return
+  }
   return function (dispatch) {
-    dispatch(requestYtid(song))
-    dispatch(fetchEntityInfo(song))
-    return getYtid(song, function (ytid) {
+    dispatch(requestYtid(track))
+    dispatch(fetchEntityInfo({
+      entityType: ENTITY_TYPE.TRACK,
+      mbid: track.mbid,
+      name: track.name,
+      artist: track.artist}))
+    return getYtid({name: track.name, artist: track.artist}).then((ytid) => {
       dispatch(receiveYtid(ytid))
     })
   }
 }
 
 export const REQUEST_YTID = 'REQUEST_YTID'
-function requestYtid(song) {
-  return {type: REQUEST_YTID, song}
+function requestYtid(track) {
+  return {type: REQUEST_YTID, track}
 }
 
 export const RECEIVE_YTID = 'RECEIVE_YTID'

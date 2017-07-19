@@ -1,0 +1,14 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+#scroll-container {
+  overflow-y: scroll;
+  width: 100%;
+}
+
+#content {
+  background-color: #eee;
+}
