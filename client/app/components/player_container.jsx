@@ -86,10 +86,10 @@ class Player extends React.Component {
     return (
       <div className="container">
       	<div className="row audio-player">
-      		<div className="col-xs-8 col-md-4 audio-player-track-info">
+      		<div className="col-xs-6 col-md-3 audio-player-track-info">
             <div>{this.props.song.artist + ' - ' + this.props.song.name}</div>
           </div>
-          <div className="col-xs-0 col-md-4">
+          <div className="col-xs-0 col-md-6">
             <div className="progress audio-player-progress-bar">
               <div className="progress-bar progress-bar-striped active"
                    role="progressbar"
@@ -100,7 +100,7 @@ class Player extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-xs-4 col-md-4 audio-player-buttons">
+          <div className="col-xs-6 col-md-3 audio-player-buttons">
             {playerButtons}
           </div>
         </div>
