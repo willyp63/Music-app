@@ -2,30 +2,20 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {isEmpty} from '../../util/js_utils'
 
-import App from '../app'
 import EntityIndexItem from './entity_index_item'
 import {playSong} from '../../actions/player_actions'
 
 const EntityIndex = ({entities, onSongPlay, history}) => {
   const orderedEntities = Object.values(entities).sort((a, b) => b.score - a.score)
-  if (isEmpty(orderedEntities)) {
+  const content = orderedEntities.map((entity) => {
     return (
-      <App showSearchBar={true}>
-        <div className="entity-index-placeholder">
-          No matching entities found ¯\_( ͡° ͜ʖ ͡°)_/¯
-        </div>
-      </App>
+      <EntityIndexItem key={entity.id}
+                       entity={entity}
+                       onSongPlay={() => onSongPlay(entity)}/>
     )
-  }
+  })
   return (
-    <App showSearchBar={true}>
-      <div className="entity-index">
-        {orderedEntities.map((entity) =>
-            (<EntityIndexItem key={entity.id}
-                              entity={entity}
-                              onSongPlay={() => onSongPlay(entity)}/>))}
-      </div>
-    </App>
+    <div className="entity-index">{content}</div>
   )
 }
 
@@ -37,7 +27,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSongPlay: (result) => dispatch(playSong(result))
+    onSongPlay: (entity) => dispatch(playSong(entity))
   }
 }
 

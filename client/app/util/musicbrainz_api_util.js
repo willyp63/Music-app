@@ -61,10 +61,10 @@ const getQueryString = (query, field = '') => {
   return finalQuery
 }
 
-export function getEntities(entityType, {id, query, artistQuery}, onResponse) {
-  if (isNotEmpty(id)) return getEntityById(entityType, id, onResponse)
+export function getEntities({queryType, id, query, artistQuery}, onResponse) {
+  if (isNotEmpty(id)) return getEntityById(queryType, id, onResponse)
 
-  var entityTypeStr = getTypeQueryString(entityType)
+  var entityTypeStr = getTypeQueryString(queryType)
   var queryStrings = []
   if (isNotEmpty(query)) {
     queryStrings.push(getQueryString(query))
@@ -78,8 +78,8 @@ export function getEntities(entityType, {id, query, artistQuery}, onResponse) {
   }
   var queryUrl = getQueryUrl(entityTypeStr, queryStrings.join(' AND '))
   $.get(queryUrl, function(response) {
-    var responseField = getTypeResponseField(entityType)
-    var entities = response[responseField].map((pojo) => getEntity(entityType, pojo))
+    var responseField = getTypeResponseField(queryType)
+    var entities = response[responseField].map((pojo) => getEntity(queryType, pojo))
     var entityMap = {}
     entities.forEach((entity) => {
       entityMap[entity.id] = entity
@@ -88,9 +88,9 @@ export function getEntities(entityType, {id, query, artistQuery}, onResponse) {
   })
 }
 
-function getEntityById(entityType, id, onResponse) {
-  var entityTypeStr = getTypeQueryString(entityType)
-  var queryUrl = getQueryByIdUrl(entityTypeStr, id)
+function getEntityById(queryType, id, onResponse) {
+  var queryTypeStr = getQueryTypeString(queryType)
+  var queryUrl = getQueryByIdUrl(queryTypeStr, id)
   $.get(queryUrl, function(response) {
     var entity = getEntity(entityType, response)
     var entityMap = {}

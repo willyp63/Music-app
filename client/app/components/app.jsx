@@ -1,22 +1,30 @@
 import React from 'react'
+import {Switch, Route} from 'react-router-dom'
 
-import SearchBarContainer from './search_bar/search_bar_container'
+import {resizeAppContent} from '../util/jquery_utils'
+
+import SearchFormContainer from './search_form_container'
+import PlayerContainer from './player_container'
+import EntityIndexContainer from './entity_index/entity_index_container'
 
 class App extends React.Component {
   componentDidMount() {
-    this.adjustContent()
-  }
-  adjustContent() {
-    var newHeight = window.innerHeight - $('#search-bar').height() - $('#audio-player-bar').height()
-    $('.content').height(newHeight)
+    resizeAppContent()
+    $(window).resize(resizeAppContent)
   }
   render() {
     return (
       <div>
-        <div className="background-container"></div>
-        {this.props.showSearchBar ? (<SearchBarContainer/>) : (<div id="search-bar" style={{height: 0}}></div>)}
-        <div className="content">
-          {this.props.children}
+        <div id="search-bar">
+          <SearchFormContainer/>
+        </div>
+        <div id="content">
+          <Switch>
+            <Route exact path="/" component={EntityIndexContainer} />
+          </Switch>
+        </div>
+        <div id="player-bar">
+          <PlayerContainer/>
         </div>
       </div>
     )

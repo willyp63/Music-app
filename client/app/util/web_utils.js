@@ -1,3 +1,5 @@
+import {isNotEmpty} from './js_utils'
+
 export function parseUrlQueryString(str) {
   if (str.match(/\?/) === null) return {}
   const paramsStr = str.match(/\?(.*)/)[1] || ''
@@ -9,4 +11,13 @@ export function parseUrlQueryString(str) {
     params[matches[1]] = matches[2]
   })
   return params
+}
+
+export function getUrlWithQueryParams(url, queryParams) {
+  const queryParamsStr = Object.keys(queryParams)
+      .map((key) => key + '=' + queryParams[key])
+      .join('&')
+  return isNotEmpty(queryParamsStr)
+      ? url + '?' + queryParamsStr
+      : url
 }

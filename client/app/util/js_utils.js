@@ -4,6 +4,8 @@ export function isEmpty(value) {
     return value.length === 0
   } else if (typeof value === 'string') {
     return value === ''
+  } else if (typeof value === 'object') {
+    return isEmpty(Object.keys(value))
   } else {
     return false
   }
