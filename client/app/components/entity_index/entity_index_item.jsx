@@ -2,26 +2,14 @@ import React from 'react'
 
 import {isEmpty, isNotEmpty} from '../../util/js_utils'
 
-function renderField(entity, field) {
-  switch (field) {
-    case 'artist':
-      return 'Artist: ' + entity[field]
-    default:
-      return ''
-  }
-}
-
 const EntityIndexItem = ({entity, onSongPlay}) => {
   if (isEmpty(entity)) return null
   const image = isNotEmpty(entity.image)
-      ? (<img className="entity-index-item-image" src={entity.image[0]['#text']}/>)
+      ? (<img className="entity-index-item-image" src={entity.image[1]['#text']}/>)
       : ''
-  const renderedFields = Object.keys(entity).map((field) => {
-    const renderedField = renderField(entity, field)
-    return isNotEmpty(renderedField)
-        ? (<span key={field} className="entity-index-item-field">{renderedField}</span>)
-        : ''
-  })
+  const renderedName = isNotEmpty(entity.artist)
+      ? entity.artist + ' - ' + entity.name
+      : entity.name
   const playButton = isNotEmpty(entity.name) && isNotEmpty(entity.artist)
       ? (
         <button type="button" className="btn btn-primary entity-index-item-play-button" onClick={onSongPlay}>
@@ -29,17 +17,22 @@ const EntityIndexItem = ({entity, onSongPlay}) => {
         </button>
       ) : ''
   return (
-    <div className="entity-index-item">
-      {image}
-      <div className="entity-index-item-name">
-        {entity.name}
+    <div className="container">
+      <div className="row entity-index-item">
+        <div className="col-md-2">
+          {image}
+        </div>
+        <div className="col-md-4 entity-index-item-name">
+          {renderedName}
+        </div>
+        <div className="col-md-2">
+          {playButton}
+        </div>
       </div>
-      <div className="entity-index-item-fields">
-        ({renderedFields})
-      </div>
-      {playButton}
     </div>
   )
 }
+
+
 
 export default EntityIndexItem

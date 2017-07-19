@@ -37,18 +37,18 @@ class Player extends React.Component {
     let playerButton
     if (isEmpty(this.props.song.ytid)) {
       playerButton = (<button type="button"
-                              className="btn btn-primary audio-player-button">
+                              className="btn btn-primary">
                         <span className="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                       </button>)
     } else {
       playerButton = this.state.isPlaying
           ? (<button type="button"
-                     className="btn btn-primary audio-player-button"
+                     className="btn btn-primary"
                      onClick={this.pause.bind(this)}>
                <span className="glyphicon glyphicon-pause" aria-hidden="true"></span>
              </button>)
           : (<button type="button"
-                     className="btn btn-primary audio-player-button"
+                     className="btn btn-primary"
                      onClick={this.play.bind(this)}>
                <span className="glyphicon glyphicon-play" aria-hidden="true"></span>
              </button>)
@@ -58,15 +58,15 @@ class Player extends React.Component {
         : ''
     return (
       <div className="container">
-      	<div className="row">
-      		<div className="col-md-12">
-            <span className="audio-player-track-info">
-              {this.props.song.artist + ' - ' + this.props.song.name}
-            </span>
+      	<div className="row audio-player">
+      		<div className="col-md-9 audio-player-track-info">
+            <div>{this.props.song.artist + ' - ' + this.props.song.name}</div>
+          </div>
+          <div className="col-md-3 audio-player-button">
             {playerButton}
-            <audio id="audio-player" autoPlay>{audioSource}</audio>
           </div>
         </div>
+        <audio id="audio-player" autoPlay>{audioSource}</audio>
       </div>
     )
   }

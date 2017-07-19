@@ -18,10 +18,16 @@ class App extends React.Component {
         <div id="search-bar">
           <SearchFormContainer/>
         </div>
-        <div id="content">
-          <Switch>
-            <Route exact path="/" component={EntityIndexContainer} />
-          </Switch>
+        <div id="content" className="container">
+          <div className="row">
+            <div className="col-md-2"></div>
+            <div className="col-md-8">
+              <Switch>
+                <Route exact path="/" component={EntityIndexContainer} />
+              </Switch>
+            </div>
+            <div className="col-md-2"></div>
+          </div>
         </div>
         <div id="player-bar">
           <PlayerContainer/>

@@ -13151,11 +13151,21 @@ var App = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
-          { id: 'content' },
+          { id: 'content', className: 'container' },
           _react2.default.createElement(
-            _reactRouterDom.Switch,
-            null,
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _entity_index_container2.default })
+            'div',
+            { className: 'row' },
+            _react2.default.createElement('div', { className: 'col-md-2' }),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-md-8' },
+              _react2.default.createElement(
+                _reactRouterDom.Switch,
+                null,
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _entity_index_container2.default })
+              )
+            ),
+            _react2.default.createElement('div', { className: 'col-md-2' })
           )
         ),
         _react2.default.createElement(
@@ -30091,29 +30101,13 @@ var _js_utils = __webpack_require__(37);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function renderField(entity, field) {
-  switch (field) {
-    case 'artist':
-      return 'Artist: ' + entity[field];
-    default:
-      return '';
-  }
-}
-
 var EntityIndexItem = function EntityIndexItem(_ref) {
   var entity = _ref.entity,
       onSongPlay = _ref.onSongPlay;
 
   if ((0, _js_utils.isEmpty)(entity)) return null;
-  var image = (0, _js_utils.isNotEmpty)(entity.image) ? _react2.default.createElement('img', { className: 'entity-index-item-image', src: entity.image[0]['#text'] }) : '';
-  var renderedFields = Object.keys(entity).map(function (field) {
-    var renderedField = renderField(entity, field);
-    return (0, _js_utils.isNotEmpty)(renderedField) ? _react2.default.createElement(
-      'span',
-      { key: field, className: 'entity-index-item-field' },
-      renderedField
-    ) : '';
-  });
+  var image = (0, _js_utils.isNotEmpty)(entity.image) ? _react2.default.createElement('img', { className: 'entity-index-item-image', src: entity.image[1]['#text'] }) : '';
+  var renderedName = (0, _js_utils.isNotEmpty)(entity.artist) ? entity.artist + ' - ' + entity.name : entity.name;
   var playButton = (0, _js_utils.isNotEmpty)(entity.name) && (0, _js_utils.isNotEmpty)(entity.artist) ? _react2.default.createElement(
     'button',
     { type: 'button', className: 'btn btn-primary entity-index-item-play-button', onClick: onSongPlay },
@@ -30121,21 +30115,26 @@ var EntityIndexItem = function EntityIndexItem(_ref) {
   ) : '';
   return _react2.default.createElement(
     'div',
-    { className: 'entity-index-item' },
-    image,
+    { className: 'container' },
     _react2.default.createElement(
       'div',
-      { className: 'entity-index-item-name' },
-      entity.name
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'entity-index-item-fields' },
-      '(',
-      renderedFields,
-      ')'
-    ),
-    playButton
+      { className: 'row entity-index-item' },
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-2' },
+        image
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-4 entity-index-item-name' },
+        renderedName
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-2' },
+        playButton
+      )
+    )
   );
 };
 
@@ -30456,20 +30455,20 @@ var Player = function (_React$Component) {
         playerButton = _react2.default.createElement(
           'button',
           { type: 'button',
-            className: 'btn btn-primary audio-player-button' },
+            className: 'btn btn-primary' },
           _react2.default.createElement('span', { className: 'glyphicon glyphicon-asterisk', 'aria-hidden': 'true' })
         );
       } else {
         playerButton = this.state.isPlaying ? _react2.default.createElement(
           'button',
           { type: 'button',
-            className: 'btn btn-primary audio-player-button',
+            className: 'btn btn-primary',
             onClick: this.pause.bind(this) },
           _react2.default.createElement('span', { className: 'glyphicon glyphicon-pause', 'aria-hidden': 'true' })
         ) : _react2.default.createElement(
           'button',
           { type: 'button',
-            className: 'btn btn-primary audio-player-button',
+            className: 'btn btn-primary',
             onClick: this.play.bind(this) },
           _react2.default.createElement('span', { className: 'glyphicon glyphicon-play', 'aria-hidden': 'true' })
         );
@@ -30480,22 +30479,26 @@ var Player = function (_React$Component) {
         { className: 'container' },
         _react2.default.createElement(
           'div',
-          { className: 'row' },
+          { className: 'row audio-player' },
           _react2.default.createElement(
             'div',
-            { className: 'col-md-12' },
+            { className: 'col-md-9 audio-player-track-info' },
             _react2.default.createElement(
-              'span',
-              { className: 'audio-player-track-info' },
+              'div',
+              null,
               this.props.song.artist + ' - ' + this.props.song.name
-            ),
-            playerButton,
-            _react2.default.createElement(
-              'audio',
-              { id: 'audio-player', autoPlay: true },
-              audioSource
             )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-3 audio-player-button' },
+            playerButton
           )
+        ),
+        _react2.default.createElement(
+          'audio',
+          { id: 'audio-player', autoPlay: true },
+          audioSource
         )
       );
     }
