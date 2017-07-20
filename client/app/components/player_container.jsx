@@ -24,7 +24,7 @@ class Player extends React.Component {
     }
   }
   componentDidUpdate() {
-    $('#scroll-container').height('100vh')
+    $('#app').height(window.innerHeight)
   }
   play() {
     $('#audio-player')[0].play()

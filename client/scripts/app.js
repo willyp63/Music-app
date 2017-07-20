@@ -30138,7 +30138,7 @@ var Player = function (_React$Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      $('#scroll-container').height('100vh');
+      $('#app').height(window.innerHeight);
     }
   }, {
     key: 'play',
