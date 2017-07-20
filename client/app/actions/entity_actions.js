@@ -1,17 +1,17 @@
 import { search, getInfo } from '../util/api/last_fm'
 
-export function fetchEntities({entityType, query, artistQuery}) {
+export function fetchEntities(entityType, query) {
   return function (dispatch) {
-    dispatch(requestEntities())
-    return search({entityType, query, artistQuery}).then((entities) => {
+    dispatch(requestEntities(entityType, query))
+    return search(entityType, query).then((entities) => {
       dispatch(receiveEntities(entities))
     })
   }
 }
 
 export const REQUEST_ENTITIES = 'REQUEST_ENTITIES'
-function requestEntities() {
-  return {type: REQUEST_ENTITIES}
+function requestEntities(entityType, query) {
+  return {type: REQUEST_ENTITIES, entityType, query}
 }
 
 export const RECEIVE_ENTITIES = 'RECEIVE_ENTITIES'
@@ -19,21 +19,21 @@ function receiveEntities(entities) {
   return {type: RECEIVE_ENTITIES, entities}
 }
 
-export function fetchEntityInfo({entityType, mbid, name, artist}) {
+export function fetchEntity(entityType, mbid) {
   return function (dispatch) {
-    dispatch(requestEntityInfo(mbid))
-    return getInfo({entityType, mbid, name, artist}).then((entityInfo) => {
-      receiveEntityInfo(entityInfo)
+    dispatch(requestEntity(entityType, mbid))
+    return getInfo(entityType, mbid).then((entity) => {
+      dispatch(receiveEntity(entity))
     })
   }
 }
 
-export const REQUEST_ENTITY_INFO = 'REQUEST_ENTITY_INFO'
-function requestEntityInfo(mbid) {
-  return {type: REQUEST_ENTITY_INFO, mbid}
+export const REQUEST_ENTITY = 'REQUEST_ENTITY'
+function requestEntity(entityType, mbid) {
+  return {type: REQUEST_ENTITY, entityType, mbid}
 }
 
-export const RECEIVE_ENTITY_INFO = 'RECEIVE_ENTITY_INFO'
-function receiveEntityInfo(entityInfo) {
-  return {type: RECEIVE_ENTITY_INFO, entityInfo}
+export const RECEIVE_ENTITY = 'RECEIVE_ENTITY'
+function receiveEntity(entity) {
+  return {type: RECEIVE_ENTITY, entity}
 }

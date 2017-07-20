@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { isEmpty } from '../../util/misc/empty'
+import { isEmpty } from '../../../util/misc/empty'
 
+import AppWrapper from '../../app_wrapper'
 import EntityIndexItem from './entity_index_item'
-import { playTrack } from '../../actions/player_actions'
+import { playTrack } from '../../../actions/player_actions'
 
 const EntityIndex = ({entities, onTrackPlay}) => {
   const orderedEntities = Object.values(entities).sort((a, b) => a.order - b.order)
@@ -15,7 +16,9 @@ const EntityIndex = ({entities, onTrackPlay}) => {
     )
   })
   return (
-    <div className="entity-index">{content}</div>
+    <AppWrapper>
+      <div className="entity-index">{content}</div>
+    </AppWrapper>
   )
 }
 

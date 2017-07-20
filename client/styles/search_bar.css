@@ -1,40 +1,45 @@
 #search-bar {
   position: relative; /* To show shadow over #scroll-container */
   z-index: 1000; /* Same as above */
-  box-shadow: 0 2px 5px #888;
+  box-shadow: 0 2px 5px #aaa;
   padding: 16px;
+}
+
+.search-bar-home-link {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
 }
 
 .dropdown.dropdown-lg .dropdown-menu {
     margin-top: -1px;
-    padding: 6px 20px;
+    padding: 8px 0;
+    min-width: 0;
+}
+
+.search-bar-type-option {
+  padding: 8px 24px;
+  cursor: pointer;
+}
+
+.search-bar-type-option:hover {
+  background-color: #eee;
 }
 
 .input-group-btn .btn-group {
-    display: flex !important;
+  display: flex !important;
 }
 
 .btn-group .btn {
-    border-radius: 0;
-    margin-left: -1px;
+  border-radius: 0;
+  margin-left: -1px;
 }
 
 .btn-group .btn:last-child {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
-.btn-group .form-horizontal .btn[type="submit"] {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-
-.form-horizontal .form-group {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.form-group .form-control:last-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+.serach-bar-type-picker-caret {
+  margin-left: 4px !important;
 }

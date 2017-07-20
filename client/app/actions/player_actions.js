@@ -1,5 +1,5 @@
 import { getYtid } from '../util/api/youtube'
-import { fetchEntityInfo } from './entity_actions'
+import { fetchEntity } from './entity_actions'
 import ENTITY_TYPE from '../entities/type'
 
 export function playTrack(track) {
@@ -9,12 +9,9 @@ export function playTrack(track) {
   }
   return function (dispatch) {
     dispatch(requestYtid(track))
-    dispatch(fetchEntityInfo({
-      entityType: ENTITY_TYPE.TRACK,
-      mbid: track.mbid,
-      name: track.name,
-      artist: track.artist}))
-    return getYtid({name: track.name, artist: track.artist}).then((ytid) => {
+    // Fetch entity info in order to get track duration.
+    dispatch(fetchEntity(ENTITY_TYPE.TRACK, track.mbid))
+    return getYtid(track.name, track.artist.name).then((ytid) => {
       dispatch(receiveYtid(ytid))
     })
   }
@@ -28,4 +25,9 @@ function requestYtid(track) {
 export const RECEIVE_YTID = 'RECEIVE_YTID'
 function receiveYtid(ytid) {
   return {type: RECEIVE_YTID, ytid}
+}
+
+export const CLOSE_PLAYER = 'CLOSE_PLAYER'
+export function closePlayer() {
+  return {type: CLOSE_PLAYER}
 }

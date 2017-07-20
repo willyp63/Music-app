@@ -1,14 +1,21 @@
-import { RECEIVE_ENTITY_INFO } from '../actions/entity_actions'
-import { REQUEST_YTID, RECEIVE_YTID } from '../actions/player_actions'
+import { isEmpty } from '../util/misc/empty'
+
+import { RECEIVE_ENTITY } from '../actions/entity_actions'
+import { REQUEST_YTID, RECEIVE_YTID, CLOSE_PLAYER } from '../actions/player_actions'
 
 const playingTrack = (state = {}, action) => {
   switch (action.type) {
     case REQUEST_YTID:
-      return action.track
+      // Create copy of track separate from [state.entities].
+      return Object.assign({}, action.track)
     case RECEIVE_YTID:
       return Object.assign({}, state, {ytid: action.ytid})
-    case RECEIVE_ENTITY_INFO:
-      return Object.assign({}, state, action.entityInfo)
+    case RECEIVE_ENTITY:
+      return action.entity.mbid === state.mbid
+          ? Object.assign({}, state, action.entity)
+          : state
+    case CLOSE_PLAYER:
+      return {}
     default:
       return state
   }

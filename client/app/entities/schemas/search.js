@@ -3,17 +3,17 @@ import ENTITY_TYPE from '../type'
 const SEARCH_ENTITY_SCHEMA = {}
 
 SEARCH_ENTITY_SCHEMA[ENTITY_TYPE.TRACK] = {
-  label: 'Track',
+  label: 'Tracks',
   placeHolderString: 'Search for tracks'
 }
 
 SEARCH_ENTITY_SCHEMA[ENTITY_TYPE.ALBUM] = {
-  label: 'Album',
+  label: 'Albums',
   placeHolderString: 'Search for albums'
 }
 
 SEARCH_ENTITY_SCHEMA[ENTITY_TYPE.ARTIST] = {
-  label: 'Artist',
+  label: 'Artists',
   placeHolderString: 'Search for artists'
 }
 

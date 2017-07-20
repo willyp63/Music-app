@@ -4,9 +4,17 @@ html, body {
   font-family: sans-serif;
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
 #scroll-container {
   overflow-y: scroll;
   width: 100%;
+  flex-grow: 1;
 }
 
 #content {

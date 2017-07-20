@@ -1,7 +1,7 @@
 #player-bar {
   position: relative; /* To show shadow over #scroll-container */
   z-index: 1000; /* Same as above */
-  box-shadow: 0 -2px 5px #888;
+  box-shadow: 0 -2px 5px #aaa;
 }
 
 .audio-player-top-row {

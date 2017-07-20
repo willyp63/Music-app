@@ -1,0 +1,19 @@
+.entity-show {
+  padding: 8px;
+}
+
+.entity-show-name {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.entity-show-image {
+  width: 100%;
+  max-width: 256px;
+  height: auto;
+}
+
+.entity-show-play-button {
+  font-size: 32px;
+  margin: 8px;
+}

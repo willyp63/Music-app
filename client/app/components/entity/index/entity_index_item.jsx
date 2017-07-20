@@ -1,7 +1,9 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 
-import { isEmpty, isNotEmpty } from '../../util/misc/empty'
-import INDEX_ENTITY_SCHEMA from '../../entities/schemas/index'
+import { isEmpty, isNotEmpty } from '../../../util/misc/empty'
+import { getNestedFieldValue } from '../../../util/misc/nested_field'
+import INDEX_ENTITY_SCHEMA from '../../../entities/schemas/index'
 
 function getColumn(entity, field, fieldProperties, props) {
   let classNames = []
@@ -15,28 +17,28 @@ function getColumn(entity, field, fieldProperties, props) {
   const dependentFields = {}
   if(isNotEmpty(fieldProperties.dependentFields)) {
     fieldProperties.dependentFields.forEach((dependentField) => {
-      dependentFields[dependentField] = entity[dependentField]
+      dependentFields[dependentField] = getNestedFieldValue(entity, dependentField)
     })
   }
 
   const formatter = fieldProperties.formatter
   return (
     <div key={field} className={classNames.join(' ')}>
-      {formatter(entity[field], dependentFields, props)}
+      {formatter(getNestedFieldValue(entity, field), dependentFields, props)}
     </div>
   )
 }
 
-const EntityIndexItem = ({entity, onTrackPlay}) => {
-  if (isEmpty(entity)) return null
+const EntityIndexItem = (props) => {
+  if (isEmpty(props.entity)) return null
   const columns = []
-  const typeSchema = INDEX_ENTITY_SCHEMA[entity.type]
+  const typeSchema = INDEX_ENTITY_SCHEMA[props.entity.type]
   Object.keys(typeSchema)
       .sort((a, b) => typeSchema[a].order - typeSchema[b].order)
       .forEach((field) => {
     const fieldProperties = typeSchema[field]
     if (fieldProperties.visible) {
-      columns.push(getColumn(entity, field, fieldProperties, {onTrackPlay}))
+      columns.push(getColumn(props.entity, field, fieldProperties, props))
     }
   })
   return (
@@ -46,4 +48,4 @@ const EntityIndexItem = ({entity, onTrackPlay}) => {
   )
 }
 
-export default EntityIndexItem
+export default withRouter(EntityIndexItem)

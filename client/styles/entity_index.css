@@ -11,6 +11,9 @@
 
 .entity-index-item-name {
   font-weight: bold;
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
 }
 
 .entity-index-item-image {

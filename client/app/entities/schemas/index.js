@@ -7,7 +7,7 @@ import PlayButtonFormatter from '../../formatters/index/play_button'
 const INDEX_ENTITY_SCHEMA = {}
 
 INDEX_ENTITY_SCHEMA[ENTITY_TYPE.TRACK] = {
-  image: {
+  'album.image': {
     visible: true,
     formatter: ImageFormatter,
     width: {
@@ -24,9 +24,9 @@ INDEX_ENTITY_SCHEMA[ENTITY_TYPE.TRACK] = {
       xs: 6
     },
     order: 1,
-    dependentFields: ['artist']
+    dependentFields: ['artist.name']
   },
-  play_button: {
+  '#play_button': {
     visible: true,
     formatter: PlayButtonFormatter,
     width: {
@@ -55,7 +55,7 @@ INDEX_ENTITY_SCHEMA[ENTITY_TYPE.ALBUM] = {
       xs: 8
     },
     order: 1,
-    dependentFields: ['artist']
+    dependentFields: ['artist.name']
   }
 }
 
