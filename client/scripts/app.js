@@ -30134,6 +30134,7 @@ var Player = function (_React$Component) {
           return _this2.setState({ isPlaying: false });
         });
       }
+      $('#scroll-container').height('100vh');
     }
   }, {
     key: 'play',

@@ -22,6 +22,7 @@ class Player extends React.Component {
       player.addEventListener('play', () => this.setState({isPlaying: true}))
       player.addEventListener('pause', () => this.setState({isPlaying: false}))
     }
+    $('#scroll-container').height('100vh')
   }
   play() {
     $('#audio-player')[0].play()
