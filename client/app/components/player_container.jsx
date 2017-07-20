@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { closePlayer } from '../actions/player_actions'
 
 import { isEmpty, isNotEmpty } from '../util/misc/empty'
-import { adjustScrollContainerHeightToFit } from '../util/dom/app'
 import ENTITY_TYPE from '../entities/type'
 
 const STREAM_BASE_URL = '/stream?ytid='
@@ -23,10 +22,6 @@ class Player extends React.Component {
       player.addEventListener('play', () => this.setState({isPlaying: true}))
       player.addEventListener('pause', () => this.setState({isPlaying: false}))
     }
-    adjustScrollContainerHeightToFit()
-  }
-  componentDidUpdate() {
-    adjustScrollContainerHeightToFit()
   }
   play() {
     $('#audio-player')[0].play()

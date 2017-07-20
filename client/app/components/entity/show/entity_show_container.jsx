@@ -5,7 +5,7 @@ import { isEmpty, isNotEmpty } from '../../../util/misc/empty'
 import { fetchEntity } from '../../../actions/entity_actions'
 import { playTrack } from '../../../actions/player_actions'
 
-import AppWrapper from '../../app_wrapper'
+import App from '../../app'
 import EntityShow from './entity_show'
 
 class EntityshowContainerComponent extends React.Component {
@@ -18,11 +18,11 @@ class EntityshowContainerComponent extends React.Component {
   }
   render() {
     return (
-      <AppWrapper>
+      <App>
         <EntityShow entity={this.props.entity} onTrackPlay={() => {
           this.props.onTrackPlay(this.props.entity)
         }}/>
-      </AppWrapper>
+      </App>
     )
   }
 }

@@ -1,25 +1,26 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
 
-import { adjustScrollContainerHeightToFit } from '../util/dom/app'
+import SearchBarContainer from './search_bar_container'
+import PlayerContainer from './player_container'
 
-import EntityIndexContainer from './entity/index/entity_index_container'
-import EntityShowContainer from './entity/show/entity_show_container'
-
-class App extends React.Component {
-  componentDidMount() {
-    adjustScrollContainerHeightToFit()
-    $(window).resize(adjustScrollContainerHeightToFit)
-  }
-  render() {
-    return (
-      <Switch>
-        <Route path="/:entityType/:mbid" component={EntityShowContainer} />
-        <Route path="/:entityType" component={EntityIndexContainer} />
-        <Route path="/" component={EntityIndexContainer} />
-      </Switch>
-    )
-  }
-}
+const App = ({children}) => (
+  <div id="app">
+    <div id="search-bar">
+      <SearchBarContainer/>
+    </div>
+    <div id="scroll-container">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12" id="content">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="player-bar">
+      <PlayerContainer/>
+    </div>
+  </div>
+)
 
 export default App

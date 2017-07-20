@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 import debounce from 'lodash.debounce'
-import { adjustScrollContainerHeightToFit } from '../util/dom/app'
 import { getUrlWithQueryParams, parseQueryParamsString } from '../util/misc/string'
 import { isNotEmpty } from '../util/misc/empty'
 
@@ -71,7 +70,6 @@ class SearchBar extends React.Component {
                      autoComplete="off"
                      value={this.state.query}
                      placeholder={placeholder}
-                     onBlur={adjustScrollContainerHeightToFit}
                      onChange={(e) => {
                        this.setState({query: e.target.value}, this.onQuery.bind(this))
                      }} />

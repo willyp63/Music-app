@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { isEmpty } from '../../../util/misc/empty'
 
-import AppWrapper from '../../app_wrapper'
+import App from '../../app'
 import EntityIndexItem from './entity_index_item'
 import { playTrack } from '../../../actions/player_actions'
 
@@ -16,9 +16,9 @@ const EntityIndex = ({entities, onTrackPlay}) => {
     )
   })
   return (
-    <AppWrapper>
+    <App>
       <div className="entity-index">{content}</div>
-    </AppWrapper>
+    </App>
   )
 }
 

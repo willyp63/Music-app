@@ -7714,22 +7714,7 @@ var createTransitionManager = function createTransitionManager() {
 /* harmony default export */ __webpack_exports__["a"] = (createTransitionManager);
 
 /***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.adjustScrollContainerHeightToFit = adjustScrollContainerHeightToFit;
-function adjustScrollContainerHeightToFit() {
-    var availableHeight = window.innerHeight - $('#search-bar').outerHeight() - $('#player-bar').outerHeight();
-    $('#scroll-container').height(availableHeight);
-}
-
-/***/ }),
+/* 70 */,
 /* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12960,9 +12945,9 @@ var _reduxLogger = __webpack_require__(277);
 
 var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-var _app = __webpack_require__(278);
+var _routes = __webpack_require__(301);
 
-var _app2 = _interopRequireDefault(_app);
+var _routes2 = _interopRequireDefault(_routes);
 
 var _entities = __webpack_require__(298);
 
@@ -12988,7 +12973,7 @@ var Root = function Root() {
     _react2.default.createElement(
       _reactRouterDom.HashRouter,
       { history: history },
-      _react2.default.createElement(_app2.default, null)
+      _react2.default.createElement(_routes2.default, null)
     )
   );
 };
@@ -29272,62 +29257,54 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(115);
+var _search_bar_container = __webpack_require__(279);
 
-var _app = __webpack_require__(70);
+var _search_bar_container2 = _interopRequireDefault(_search_bar_container);
 
-var _entity_index_container = __webpack_require__(285);
+var _player_container = __webpack_require__(284);
 
-var _entity_index_container2 = _interopRequireDefault(_entity_index_container);
-
-var _entity_show_container = __webpack_require__(292);
-
-var _entity_show_container2 = _interopRequireDefault(_entity_show_container);
+var _player_container2 = _interopRequireDefault(_player_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var App = function (_React$Component) {
-  _inherits(App, _React$Component);
-
-  function App() {
-    _classCallCheck(this, App);
-
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-  }
-
-  _createClass(App, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      (0, _app.adjustScrollContainerHeightToFit)();
-      $(window).resize(_app.adjustScrollContainerHeightToFit);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        _reactRouterDom.Switch,
-        null,
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/:entityType/:mbid', component: _entity_show_container2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/:entityType', component: _entity_index_container2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _entity_index_container2.default })
-      );
-    }
-  }]);
-
-  return App;
-}(_react2.default.Component);
+var App = function App(_ref) {
+  var children = _ref.children;
+  return _react2.default.createElement(
+    'div',
+    { id: 'app' },
+    _react2.default.createElement(
+      'div',
+      { id: 'search-bar' },
+      _react2.default.createElement(_search_bar_container2.default, null)
+    ),
+    _react2.default.createElement(
+      'div',
+      { id: 'scroll-container' },
+      _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-12', id: 'content' },
+            children
+          )
+        )
+      )
+    ),
+    _react2.default.createElement(
+      'div',
+      { id: 'player-bar' },
+      _react2.default.createElement(_player_container2.default, null)
+    )
+  );
+};
 
 exports.default = App;
 
@@ -29355,8 +29332,6 @@ var _reactRouter = __webpack_require__(10);
 var _lodash = __webpack_require__(280);
 
 var _lodash2 = _interopRequireDefault(_lodash);
-
-var _app = __webpack_require__(70);
 
 var _string = __webpack_require__(71);
 
@@ -29465,7 +29440,6 @@ var SearchBar = function (_React$Component) {
                 autoComplete: 'off',
                 value: this.state.query,
                 placeholder: placeholder,
-                onBlur: _app.adjustScrollContainerHeightToFit,
                 onChange: function onChange(e) {
                   _this2.setState({ query: e.target.value }, _this2.onQuery.bind(_this2));
                 } }),
@@ -30117,8 +30091,6 @@ var _player_actions = __webpack_require__(72);
 
 var _empty = __webpack_require__(8);
 
-var _app = __webpack_require__(70);
-
 var _type = __webpack_require__(22);
 
 var _type2 = _interopRequireDefault(_type);
@@ -30162,12 +30134,6 @@ var Player = function (_React$Component) {
           return _this2.setState({ isPlaying: false });
         });
       }
-      (0, _app.adjustScrollContainerHeightToFit)();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      (0, _app.adjustScrollContainerHeightToFit)();
     }
   }, {
     key: 'play',
@@ -30301,9 +30267,9 @@ var _reactRedux = __webpack_require__(31);
 
 var _empty = __webpack_require__(8);
 
-var _app_wrapper = __webpack_require__(300);
+var _app = __webpack_require__(278);
 
-var _app_wrapper2 = _interopRequireDefault(_app_wrapper);
+var _app2 = _interopRequireDefault(_app);
 
 var _entity_index_item = __webpack_require__(286);
 
@@ -30328,7 +30294,7 @@ var EntityIndex = function EntityIndex(_ref) {
       } });
   });
   return _react2.default.createElement(
-    _app_wrapper2.default,
+    _app2.default,
     null,
     _react2.default.createElement(
       'div',
@@ -30685,9 +30651,9 @@ var _entity_actions = __webpack_require__(34);
 
 var _player_actions = __webpack_require__(72);
 
-var _app_wrapper = __webpack_require__(300);
+var _app = __webpack_require__(278);
 
-var _app_wrapper2 = _interopRequireDefault(_app_wrapper);
+var _app2 = _interopRequireDefault(_app);
 
 var _entity_show = __webpack_require__(293);
 
@@ -30724,7 +30690,7 @@ var EntityshowContainerComponent = function (_React$Component) {
       var _this2 = this;
 
       return _react2.default.createElement(
-        _app_wrapper2.default,
+        _app2.default,
         null,
         _react2.default.createElement(_entity_show2.default, { entity: this.props.entity, onTrackPlay: function onTrackPlay() {
             _this2.props.onTrackPlay(_this2.props.entity);
@@ -31056,7 +31022,8 @@ var playingTrack = function playingTrack() {
 exports.default = playingTrack;
 
 /***/ }),
-/* 300 */
+/* 300 */,
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31070,52 +31037,29 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _search_bar_container = __webpack_require__(279);
+var _reactRouterDom = __webpack_require__(115);
 
-var _search_bar_container2 = _interopRequireDefault(_search_bar_container);
+var _entity_index_container = __webpack_require__(285);
 
-var _player_container = __webpack_require__(284);
+var _entity_index_container2 = _interopRequireDefault(_entity_index_container);
 
-var _player_container2 = _interopRequireDefault(_player_container);
+var _entity_show_container = __webpack_require__(292);
+
+var _entity_show_container2 = _interopRequireDefault(_entity_show_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var AppWrapper = function AppWrapper(_ref) {
-  var children = _ref.children;
+var Routes = function Routes() {
   return _react2.default.createElement(
-    'div',
-    { id: 'app' },
-    _react2.default.createElement(
-      'div',
-      { id: 'search-bar' },
-      _react2.default.createElement(_search_bar_container2.default, null)
-    ),
-    _react2.default.createElement(
-      'div',
-      { id: 'scroll-container' },
-      _react2.default.createElement(
-        'div',
-        { className: 'container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'row' },
-          _react2.default.createElement(
-            'div',
-            { className: 'col-md-12', id: 'content' },
-            children
-          )
-        )
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { id: 'player-bar' },
-      _react2.default.createElement(_player_container2.default, null)
-    )
+    _reactRouterDom.Switch,
+    null,
+    _react2.default.createElement(_reactRouterDom.Route, { path: '/:entityType/:mbid', component: _entity_show_container2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { path: '/:entityType', component: _entity_index_container2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _entity_index_container2.default })
   );
 };
 
-exports.default = AppWrapper;
+exports.default = Routes;
 
 /***/ })
 /******/ ]);

@@ -7,7 +7,7 @@ import { createHashHistory } from 'history'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 
-import App from './components/app'
+import Routes from './components/routes'
 import entities from './reducers/entities'
 import playingTrack from './reducers/playing_track'
 
@@ -25,7 +25,7 @@ const history = createHashHistory()
 const Root = () => (
   <Provider store={store}>
     <HashRouter history={history}>
-      <App/>
+      <Routes/>
     </HashRouter>
   </Provider>
 )
