@@ -73,10 +73,10 @@ class EntityIndex extends React.Component {
         <div className="entity-index">
           <div className="entity-index-top-bar">
             <div className="my-row entity-index-pagination-bar">
-              <div className="my-col-12 entity-index-total-count">
+              <div className="my-col-10 entity-index-total-count">
                 {this.props.total} results
               </div>
-              <div className="my-col-8 entity-index-page-number">
+              <div className="my-col-10 entity-index-page-number">
                 Page: {this.props.page} of {this.totalPages.bind(this)()}
               </div>
               <div className="my-col-4 entity-index-page-buttons">

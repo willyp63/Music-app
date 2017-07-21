@@ -2,15 +2,19 @@
   position: relative; /* To show shadow over #scroll-container */
   z-index: 1000; /* Same as above */
   box-shadow: 0 -3px 6px #aaa;
+  padding: 0 12px;
+}
+
+.audio-player-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
 }
 
 .audio-player-track-info {
-  text-align: center;
-  padding: 6px;
-}
-
-.audio-player-time-labels {
-  padding-top: 6px;
+  display: inline;
+  flex-grow: 1;
 }
 
 .audio-player-duration {
@@ -54,5 +58,5 @@
 }
 
 .audio-player-buttons {
-  padding: 6px 24px;
+  display: inline-flex !important;
 }

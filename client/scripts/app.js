@@ -29715,13 +29715,13 @@ var EntityIndex = function (_React$Component) {
               { className: 'my-row entity-index-pagination-bar' },
               _react2.default.createElement(
                 'div',
-                { className: 'my-col-12 entity-index-total-count' },
+                { className: 'my-col-10 entity-index-total-count' },
                 this.props.total,
                 ' results'
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'my-col-8 entity-index-page-number' },
+                { className: 'my-col-10 entity-index-page-number' },
                 'Page: ',
                 this.props.page,
                 ' of ',
@@ -30618,7 +30618,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var STREAM_BASE_URL = '/stream?ytid=';
 
-var AUTO_PLAY = true;
+var AUTO_PLAY = false;
 
 var Player = function (_React$Component) {
   _inherits(Player, _React$Component);
@@ -30688,45 +30688,21 @@ var Player = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'row' },
+          _react2.default.createElement('div', { className: 'col-md-1' }),
           _react2.default.createElement(
             'div',
-            { className: 'col-md-12' },
+            { className: 'col-md-10' },
             _react2.default.createElement(
               'div',
-              { className: 'my-row' },
+              { className: 'row audio-player-top-bar' },
               _react2.default.createElement(
-                'div',
-                { className: 'my-col-6 audio-player-track-info' },
+                'span',
+                { className: 'audio-player-track-info' },
                 this.props.track.artist.name + ' - ' + this.props.track.name
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'my-col-12 audio-player-progress-bar-container' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'audio-player-time-labels' },
-                  _react2.default.createElement(
-                    'span',
-                    { className: 'audio-player-current-time' },
-                    (0, _time.formatTimeMinutesSeconds)(this.state.currentTime)
-                  ),
-                  _react2.default.createElement(
-                    'span',
-                    { className: 'audio-player-duration' },
-                    (0, _time.formatTimeMinutesSeconds)(this.props.track.duration)
-                  )
-                ),
-                _react2.default.createElement('input', { id: 'audio-player-progress-bar',
-                  type: 'range',
-                  min: '0',
-                  max: this.props.track.duration,
-                  onChange: function onChange(e) {
-                    return _this3.updateCurrentTime(e.target.value);
-                  } })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'my-col-6 audio-player-buttons' },
+                { className: 'audio-player-buttons' },
                 _react2.default.createElement(
                   'div',
                   { className: 'input-group-btn' },
@@ -30749,14 +30725,40 @@ var Player = function (_React$Component) {
                     )
                   )
                 )
-              ),
-              _react2.default.createElement(
-                'audio',
-                { id: 'audio-player', autoPlay: AUTO_PLAY },
-                audioSource
               )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row audio-player-progress-bar-container' },
+              _react2.default.createElement(
+                'div',
+                { className: 'audio-player-time-labels' },
+                _react2.default.createElement(
+                  'span',
+                  { className: 'audio-player-current-time' },
+                  (0, _time.formatTimeMinutesSeconds)(this.state.currentTime)
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'audio-player-duration' },
+                  (0, _time.formatTimeMinutesSeconds)(this.props.track.duration)
+                )
+              ),
+              _react2.default.createElement('input', { id: 'audio-player-progress-bar',
+                type: 'range',
+                min: '0',
+                max: this.props.track.duration,
+                onChange: function onChange(e) {
+                  return _this3.updateCurrentTime(e.target.value);
+                } })
+            ),
+            _react2.default.createElement(
+              'audio',
+              { id: 'audio-player', autoPlay: AUTO_PLAY },
+              audioSource
             )
-          )
+          ),
+          _react2.default.createElement('div', { className: 'col-md-1' })
         )
       );
     }
