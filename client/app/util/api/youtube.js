@@ -17,9 +17,21 @@ export function getYtid(name, artist) {
       part: 'snippet',
       maxResults: '1'
     }).execute((response) => {
-      resolve(isNotEmpty(response.result.items)
-          ? response.result.items[0].id.videoId
-          : null)
+      const ytid = response.result.items[0].id.videoId
+      gapi.client.youtube.videos.list({
+        id: ytid,
+        part: 'contentDetails'
+      }).execute((response) => {
+        const duration = parseDuration(response.items[0].contentDetails.duration)
+        resolve({ytid, duration})
+      })
     })
   })
+}
+
+function parseDuration(durationStr) {
+  const matches = durationStr.match(/PT(\d*)M(\d*)S/)
+  return isNotEmpty(matches)
+      ? parseInt(matches[1]) * 60 + parseInt(matches[2])
+      : 0
 }

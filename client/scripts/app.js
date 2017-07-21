@@ -5287,10 +5287,11 @@ function playTrack(track) {
   }
   return function (dispatch) {
     dispatch(requestYtid(track));
-    // Fetch entity info in order to get track duration.
-    dispatch((0, _entity_actions.fetchEntity)(_type2.default.TRACK, track.mbid));
-    return (0, _youtube.getYtid)(track.name, track.artist.name).then(function (ytid) {
-      dispatch(receiveYtid(ytid));
+    return (0, _youtube.getYtid)(track.name, track.artist.name).then(function (_ref) {
+      var ytid = _ref.ytid,
+          duration = _ref.duration;
+
+      dispatch(receiveYtid(ytid, duration));
     });
   };
 }
@@ -5301,8 +5302,8 @@ function requestYtid(track) {
 }
 
 var RECEIVE_YTID = exports.RECEIVE_YTID = 'RECEIVE_YTID';
-function receiveYtid(ytid) {
-  return { type: RECEIVE_YTID, ytid: ytid };
+function receiveYtid(ytid, duration) {
+  return { type: RECEIVE_YTID, ytid: ytid, duration: duration };
 }
 
 var CLOSE_PLAYER = exports.CLOSE_PLAYER = 'CLOSE_PLAYER';
@@ -12861,6 +12862,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -12875,40 +12878,68 @@ var _player_container2 = _interopRequireDefault(_player_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = function App(_ref) {
-  var children = _ref.children;
-  return _react2.default.createElement(
-    'div',
-    { id: 'app' },
-    _react2.default.createElement(
-      'div',
-      { id: 'search-bar' },
-      _react2.default.createElement(_search_bar_container2.default, null)
-    ),
-    _react2.default.createElement(
-      'div',
-      { id: 'scroll-container' },
-      _react2.default.createElement(
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App() {
+    _classCallCheck(this, App);
+
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+  }
+
+  _createClass(App, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // (IOS bug fix) when scrolling url bar disappears.
+      $(window).scroll(function () {
+        return $('#app').height(window.innerHeight);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
         'div',
-        { className: 'container' },
+        { id: 'app' },
         _react2.default.createElement(
           'div',
-          { className: 'row' },
+          { id: 'search-bar' },
+          _react2.default.createElement(_search_bar_container2.default, null)
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'scroll-container' },
           _react2.default.createElement(
             'div',
-            { className: 'col-md-12', id: 'content' },
-            children
+            { className: 'container' },
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'col-md-12', id: 'content' },
+                this.props.children
+              )
+            )
           )
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'player-bar' },
+          _react2.default.createElement(_player_container2.default, null)
         )
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { id: 'player-bar' },
-      _react2.default.createElement(_player_container2.default, null)
-    )
-  );
-};
+      );
+    }
+  }]);
+
+  return App;
+}(_react2.default.Component);
 
 exports.default = App;
 
@@ -29701,7 +29732,7 @@ var EntityIndex = function (_React$Component) {
                 { className: 'my-col-4 entity-index-page-buttons' },
                 _react2.default.createElement(
                   'div',
-                  { className: 'my-col-4 input-group-btn' },
+                  { className: 'input-group-btn' },
                   _react2.default.createElement(
                     'div',
                     { className: 'btn-group', role: 'group' },
@@ -30571,6 +30602,8 @@ var _player_actions = __webpack_require__(45);
 
 var _empty = __webpack_require__(10);
 
+var _time = __webpack_require__(306);
+
 var _type = __webpack_require__(19);
 
 var _type2 = _interopRequireDefault(_type);
@@ -30585,7 +30618,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var STREAM_BASE_URL = '/stream?ytid=';
 
-var AUTO_PLAY = false;
+var AUTO_PLAY = true;
 
 var Player = function (_React$Component) {
   _inherits(Player, _React$Component);
@@ -30595,7 +30628,10 @@ var Player = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
 
-    _this.state = { isPlaying: false };
+    _this.state = {
+      isPlaying: false,
+      currentTime: 0
+    };
     return _this;
   }
 
@@ -30605,7 +30641,8 @@ var Player = function (_React$Component) {
       var _this2 = this;
 
       if ((0, _empty.isNotEmpty)(newProps.track.ytid)) {
-        var player = $('#audio-player')[0];
+        var player = this.audioPlayer();
+        if ((0, _empty.isEmpty)(player)) return;
         player.load();
         player.addEventListener('play', function () {
           return _this2.setState({ isPlaying: true });
@@ -30613,100 +30650,113 @@ var Player = function (_React$Component) {
         player.addEventListener('pause', function () {
           return _this2.setState({ isPlaying: false });
         });
+        player.addEventListener('timeupdate', function (e) {
+          $('#audio-player-progress-bar').val(e.target.currentTime);
+          _this2.setState({ currentTime: e.target.currentTime });
+        });
+        $('#audio-player-progress-bar').val(0);
       }
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
+      // (Mobile bug fix) not sure exactly why this is needed...
       $('#app').height(window.innerHeight);
     }
   }, {
-    key: 'play',
-    value: function play() {
-      $('#audio-player')[0].play();
+    key: 'audioPlayer',
+    value: function audioPlayer() {
+      return $('#audio-player')[0] || {};
     }
   }, {
-    key: 'pause',
-    value: function pause() {
-      $('#audio-player')[0].pause();
-    }
-  }, {
-    key: 'restart',
-    value: function restart() {
-      $('#audio-player')[0].currentTime = 0;
+    key: 'updateCurrentTime',
+    value: function updateCurrentTime(newTime) {
+      this.audioPlayer().currentTime = newTime;
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       if ((0, _empty.isEmpty)(this.props.track)) return null;
-      var playerButtons = [];
-      if ((0, _empty.isEmpty)(this.props.track.ytid)) {
-        playerButtons.push(_react2.default.createElement(
-          'button',
-          { type: 'button',
-            key: 'asterisk',
-            className: 'btn btn-primary' },
-          _react2.default.createElement('span', { className: 'glyphicon glyphicon-asterisk', 'aria-hidden': 'true' })
-        ));
-      } else {
-        playerButtons.push(_react2.default.createElement(
-          'button',
-          { type: 'button',
-            key: 'step-backward',
-            className: 'btn btn-primary',
-            onClick: this.restart },
-          _react2.default.createElement('span', { className: 'glyphicon glyphicon-step-backward', 'aria-hidden': 'true' })
-        ));
-        playerButtons.push(this.state.isPlaying ? _react2.default.createElement(
-          'button',
-          { type: 'button',
-            key: 'pause',
-            className: 'btn btn-primary',
-            onClick: this.pause },
-          _react2.default.createElement('span', { className: 'glyphicon glyphicon-pause', 'aria-hidden': 'true' })
-        ) : _react2.default.createElement(
-          'button',
-          { type: 'button',
-            key: 'play',
-            className: 'btn btn-primary',
-            onClick: this.play },
-          _react2.default.createElement('span', { className: 'glyphicon glyphicon-play', 'aria-hidden': 'true' })
-        ));
-        playerButtons.push(_react2.default.createElement(
-          'button',
-          { type: 'button',
-            key: 'step-forward',
-            className: 'btn btn-primary',
-            onClick: this.props.onClose },
-          _react2.default.createElement('span', { className: 'glyphicon glyphicon-chevron-down', 'aria-hidden': 'true' })
-        ));
-      }
+
       var audioSource = (0, _empty.isNotEmpty)(this.props.track.ytid) ? _react2.default.createElement('source', { src: STREAM_BASE_URL + this.props.track.ytid }) : '';
+
       return _react2.default.createElement(
         'div',
         { className: 'container' },
         _react2.default.createElement(
           'div',
-          { className: 'row audio-player-top-row' },
+          { className: 'row' },
           _react2.default.createElement(
             'div',
-            { className: 'col-xs-6 col-md-8 audio-player-track-info' },
+            { className: 'col-md-12' },
             _react2.default.createElement(
               'div',
-              null,
-              this.props.track.artist.name + ' - ' + this.props.track.name
+              { className: 'my-row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'my-col-6 audio-player-track-info' },
+                this.props.track.artist.name + ' - ' + this.props.track.name
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'my-col-12 audio-player-progress-bar-container' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'audio-player-time-labels' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'audio-player-current-time' },
+                    (0, _time.formatTimeMinutesSeconds)(this.state.currentTime)
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'audio-player-duration' },
+                    (0, _time.formatTimeMinutesSeconds)(this.props.track.duration)
+                  )
+                ),
+                _react2.default.createElement('input', { id: 'audio-player-progress-bar',
+                  type: 'range',
+                  min: '0',
+                  max: this.props.track.duration,
+                  onChange: function onChange(e) {
+                    return _this3.updateCurrentTime(e.target.value);
+                  } })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'my-col-6 audio-player-buttons' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'input-group-btn' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'btn-group', role: 'group' },
+                    _react2.default.createElement(
+                      'button',
+                      { className: 'btn btn-primary',
+                        onClick: function onClick() {
+                          _this3.state.isPlaying ? _this3.audioPlayer().pause() : _this3.audioPlayer().play();
+                        } },
+                      _react2.default.createElement('span', { className: 'glyphicon glyphicon-' + (this.state.isPlaying ? 'pause' : 'play'),
+                        'aria-hidden': 'true' })
+                    ),
+                    _react2.default.createElement(
+                      'button',
+                      { className: 'btn btn-primary', onClick: this.props.onClose },
+                      _react2.default.createElement('span', { className: '\tglyphicon glyphicon-chevron-down', 'aria-hidden': 'true' })
+                    )
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'audio',
+                { id: 'audio-player', autoPlay: AUTO_PLAY },
+                audioSource
+              )
             )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'col-xs-6 col-md-4 audio-player-buttons' },
-            playerButtons
           )
-        ),
-        _react2.default.createElement(
-          'audio',
-          { id: 'audio-player', autoPlay: AUTO_PLAY },
-          audioSource
         )
       );
     }
@@ -30764,9 +30814,21 @@ function getYtid(name, artist) {
       part: 'snippet',
       maxResults: '1'
     }).execute(function (response) {
-      resolve((0, _empty.isNotEmpty)(response.result.items) ? response.result.items[0].id.videoId : null);
+      var ytid = response.result.items[0].id.videoId;
+      gapi.client.youtube.videos.list({
+        id: ytid,
+        part: 'contentDetails'
+      }).execute(function (response) {
+        var duration = parseDuration(response.items[0].contentDetails.duration);
+        resolve({ ytid: ytid, duration: duration });
+      });
     });
   });
+}
+
+function parseDuration(durationStr) {
+  var matches = durationStr.match(/PT(\d*)M(\d*)S/);
+  return (0, _empty.isNotEmpty)(matches) ? parseInt(matches[1]) * 60 + parseInt(matches[2]) : 0;
 }
 
 /***/ }),
@@ -31362,7 +31424,7 @@ var playingTrack = function playingTrack() {
       // Create copy of track separate from [state.entities].
       return Object.assign({}, action.track);
     case _player_actions.RECEIVE_YTID:
-      return Object.assign({}, state, { ytid: action.ytid });
+      return Object.assign({}, state, { ytid: action.ytid, duration: action.duration });
     case _entity_actions.RECEIVE_ENTITY:
       return action.entity.mbid === state.mbid ? Object.assign({}, state, action.entity) : state;
     case _player_actions.CLOSE_PLAYER:
@@ -31427,6 +31489,29 @@ var entityTotal = function entityTotal() {
 };
 
 exports.default = entityTotal;
+
+/***/ }),
+/* 306 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.formatTimeMinutesSeconds = formatTimeMinutesSeconds;
+
+var _empty = __webpack_require__(10);
+
+var EMPTY_RENDER_VALUE = '--';
+
+function formatTimeMinutesSeconds(totalSeconds) {
+  if ((0, _empty.isEmpty)(totalSeconds)) return EMPTY_RENDER_VALUE;
+  var secondsStr = Math.floor(totalSeconds % 60).toString();
+  if (secondsStr.length < 2) secondsStr = '0' + secondsStr;
+  return Math.floor(totalSeconds / 60) + ':' + secondsStr;
+}
 
 /***/ })
 /******/ ]);

@@ -80,7 +80,7 @@ class EntityIndex extends React.Component {
                 Page: {this.props.page} of {this.totalPages.bind(this)()}
               </div>
               <div className="my-col-4 entity-index-page-buttons">
-                <div className="my-col-4 input-group-btn">
+                <div className="input-group-btn">
                   <div className="btn-group" role="group">
                     <button type="button"
                             className="btn btn-primary"

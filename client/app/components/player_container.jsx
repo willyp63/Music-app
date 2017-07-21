@@ -4,87 +4,98 @@ import { connect } from 'react-redux'
 import { closePlayer } from '../actions/player_actions'
 
 import { isEmpty, isNotEmpty } from '../util/misc/empty'
+import { formatTimeMinutesSeconds } from '../formatters/misc/time'
 import ENTITY_TYPE from '../entities/type'
 
 const STREAM_BASE_URL = '/stream?ytid='
 
-const AUTO_PLAY = false
+const AUTO_PLAY = true
 
 class Player extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {isPlaying: false}
+    this.state = {
+      isPlaying: false,
+      currentTime: 0
+    }
   }
   componentWillReceiveProps(newProps) {
     if (isNotEmpty(newProps.track.ytid)) {
-      const player = $('#audio-player')[0]
+      const player = this.audioPlayer()
+      if (isEmpty(player)) return
       player.load()
       player.addEventListener('play', () => this.setState({isPlaying: true}))
       player.addEventListener('pause', () => this.setState({isPlaying: false}))
+      player.addEventListener('timeupdate', (e) => {
+        $('#audio-player-progress-bar').val(e.target.currentTime)
+        this.setState({currentTime: e.target.currentTime})
+      })
+      $('#audio-player-progress-bar').val(0)
     }
   }
   componentDidUpdate() {
+    // (Mobile bug fix) not sure exactly why this is needed...
     $('#app').height(window.innerHeight)
   }
-  play() {
-    $('#audio-player')[0].play()
+  audioPlayer() {
+    return $('#audio-player')[0] || {}
   }
-  pause() {
-    $('#audio-player')[0].pause()
-  }
-  restart() {
-    $('#audio-player')[0].currentTime = 0
+  updateCurrentTime(newTime) {
+    this.audioPlayer().currentTime = newTime
   }
   render() {
     if (isEmpty(this.props.track)) return null
-    let playerButtons = []
-    if (isEmpty(this.props.track.ytid)) {
-      playerButtons.push(<button type="button"
-                                 key="asterisk"
-                                 className="btn btn-primary">
-                           <span className="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
-                         </button>)
-    } else {
-      playerButtons.push(<button type="button"
-                                 key="step-backward"
-                                 className="btn btn-primary"
-                                 onClick={this.restart}>
-                           <span className="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
-                         </button>)
-      playerButtons.push(this.state.isPlaying
-          ? (<button type="button"
-                     key="pause"
-                     className="btn btn-primary"
-                     onClick={this.pause}>
-               <span className="glyphicon glyphicon-pause" aria-hidden="true"></span>
-             </button>)
-          : (<button type="button"
-                     key="play"
-                     className="btn btn-primary"
-                     onClick={this.play}>
-               <span className="glyphicon glyphicon-play" aria-hidden="true"></span>
-             </button>))
-      playerButtons.push(<button type="button"
-                                 key="step-forward"
-                                 className="btn btn-primary"
-                                 onClick={this.props.onClose}>
-                           <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                         </button>)
-    }
+
     const audioSource = isNotEmpty(this.props.track.ytid)
         ? (<source src={STREAM_BASE_URL + this.props.track.ytid}/>)
         : ''
+
     return (
       <div className="container">
-      	<div className="row audio-player-top-row">
-      		<div className="col-xs-6 col-md-8 audio-player-track-info">
-            <div>{this.props.track.artist.name + ' - ' + this.props.track.name}</div>
-          </div>
-          <div className="col-xs-6 col-md-4 audio-player-buttons">
-            {playerButtons}
+        <div className="row">
+          <div className="col-md-12">
+          	<div className="my-row">
+          		<div className="my-col-6 audio-player-track-info">
+                {this.props.track.artist.name + ' - ' + this.props.track.name}
+              </div>
+              <div className="my-col-12 audio-player-progress-bar-container">
+                <div className="audio-player-time-labels">
+                  <span className="audio-player-current-time">
+                    {formatTimeMinutesSeconds(this.state.currentTime)}
+                  </span>
+                  <span className="audio-player-duration">
+                    {formatTimeMinutesSeconds(this.props.track.duration)}
+                  </span>
+                </div>
+                <input id="audio-player-progress-bar"
+                       type="range"
+                       min="0"
+                       max={this.props.track.duration}
+                       onChange={(e) => this.updateCurrentTime(e.target.value)}/>
+              </div>
+              <div className="my-col-6 audio-player-buttons">
+                <div className="input-group-btn">
+                  <div className="btn-group" role="group">
+                    <button className="btn btn-primary"
+                            onClick={() => {
+                              this.state.isPlaying
+                                  ? this.audioPlayer().pause()
+                                  : this.audioPlayer().play()
+                            }}>
+                      <span className={'glyphicon glyphicon-' + (this.state.isPlaying ? 'pause' : 'play')}
+                            aria-hidden="true">
+                      </span>
+                    </button>
+                    <button className="btn btn-primary" onClick={this.props.onClose}>
+                      <span className="	glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <audio id="audio-player" autoPlay={AUTO_PLAY}>{audioSource}</audio>
+            </div>
           </div>
         </div>
-        <audio id="audio-player" autoPlay={AUTO_PLAY}>{audioSource}</audio>
       </div>
     )
   }

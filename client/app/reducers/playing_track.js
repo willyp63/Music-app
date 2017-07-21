@@ -9,7 +9,7 @@ const playingTrack = (state = {}, action) => {
       // Create copy of track separate from [state.entities].
       return Object.assign({}, action.track)
     case RECEIVE_YTID:
-      return Object.assign({}, state, {ytid: action.ytid})
+      return Object.assign({}, state, {ytid: action.ytid, duration: action.duration})
     case RECEIVE_ENTITY:
       return action.entity.mbid === state.mbid
           ? Object.assign({}, state, action.entity)

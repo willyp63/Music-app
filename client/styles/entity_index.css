@@ -19,16 +19,6 @@
   padding: 12px;
 }
 
-.entity-index-page-buttons .btn:first-child {
-  border-top-left-radius: 4px !important;
-  border-bottom-left-radius: 4px !important;
-}
-
-.entity-index-page-buttons .btn:last-child {
-  border-top-right-radius: 4px !important;
-  border-bottom-right-radius: 4px !important;
-}
-
 .entity-index-column-headers {
   padding: 12px;
   border-bottom: 1px solid #ccc;

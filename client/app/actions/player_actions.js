@@ -9,10 +9,8 @@ export function playTrack(track) {
   }
   return function (dispatch) {
     dispatch(requestYtid(track))
-    // Fetch entity info in order to get track duration.
-    dispatch(fetchEntity(ENTITY_TYPE.TRACK, track.mbid))
-    return getYtid(track.name, track.artist.name).then((ytid) => {
-      dispatch(receiveYtid(ytid))
+    return getYtid(track.name, track.artist.name).then(({ytid, duration}) => {
+      dispatch(receiveYtid(ytid, duration))
     })
   }
 }
@@ -23,8 +21,8 @@ function requestYtid(track) {
 }
 
 export const RECEIVE_YTID = 'RECEIVE_YTID'
-function receiveYtid(ytid) {
-  return {type: RECEIVE_YTID, ytid}
+function receiveYtid(ytid, duration) {
+  return {type: RECEIVE_YTID, ytid, duration}
 }
 
 export const CLOSE_PLAYER = 'CLOSE_PLAYER'

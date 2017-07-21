@@ -27,3 +27,13 @@ html, body {
   text-decoration: underline;
   color: blue;
 }
+
+.btn-group .btn:first-child {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+}
+
+.btn-group .btn:last-child {
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+}
