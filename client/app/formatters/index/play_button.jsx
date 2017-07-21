@@ -1,11 +1,10 @@
 import React from 'react'
 
-import { isEmpty, isNotEmpty } from '../../util/misc/empty'
+import SharedPlayButtonFormatter from '../shared/play_button'
 
-export default function PlayButtonFormatter(field, dependentFields, props) {
-  return (
-    <button type="button" className="btn btn-primary entity-index-item-play-button" onClick={props.onTrackPlay}>
-      <span className="glyphicon glyphicon-play" aria-hidden="true"></span>
-    </button>
-  )
+const EXPECTED_CALLBACK_NAME = 'onTrackPlay'
+
+export default function PlayButtonFormatter(_, {props}) {
+  return SharedPlayButtonFormatter(
+      props[EXPECTED_CALLBACK_NAME], 'entity-index-item')
 }

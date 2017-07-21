@@ -6,31 +6,20 @@ import { getNestedFieldValue } from '../../../util/misc/nested_field'
 import INDEX_ENTITY_SCHEMA from '../../../entities/schemas/index'
 
 function getColumn(entity, field, fieldProperties, props) {
-  let classNames = []
-  if (isNotEmpty(fieldProperties.width.xs)) {
-    classNames.push('col-xs-' + fieldProperties.width.xs)
-  }
-  if (isNotEmpty(fieldProperties.width.md)) {
-    classNames.push('col-md-' + fieldProperties.width.md)
-  }
-
-  const dependentFields = {}
-  if(isNotEmpty(fieldProperties.dependentFields)) {
-    fieldProperties.dependentFields.forEach((dependentField) => {
-      dependentFields[dependentField] = getNestedFieldValue(entity, dependentField)
-    })
-  }
-
-  const formatter = fieldProperties.formatter
+  const columnClassName = isNotEmpty(fieldProperties.width)
+      ? 'my-col-' + fieldProperties.width
+      : ''
+  const fieldValue = getNestedFieldValue(entity, field)
   return (
-    <div key={field} className={classNames.join(' ')}>
-      {formatter(getNestedFieldValue(entity, field), dependentFields, props)}
+    <div key={field} className={columnClassName}>
+      {fieldProperties.formatter(fieldValue, {props})}
     </div>
   )
 }
 
 const EntityIndexItem = (props) => {
   if (isEmpty(props.entity)) return null
+
   const columns = []
   const typeSchema = INDEX_ENTITY_SCHEMA[props.entity.type]
   Object.keys(typeSchema)
@@ -42,7 +31,7 @@ const EntityIndexItem = (props) => {
     }
   })
   return (
-    <div className="row entity-index-item">
+    <div className="my-row entity-index-item">
       {columns}
     </div>
   )

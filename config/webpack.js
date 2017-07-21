@@ -1,7 +1,7 @@
-var path = require("path");
+const path = require('path')
 
-const APP_ENTRY_PATH = path.resolve(__dirname, '../client/app/entry.jsx');
-const SCRIPTS_PATH = path.resolve(__dirname, '../client/scripts');
+const APP_ENTRY_PATH = path.resolve(__dirname, '../client/app/entry.jsx')
+const SCRIPTS_PATH = path.resolve(__dirname, '../client/scripts')
 
 module.exports = {
   context: __dirname,
@@ -26,4 +26,4 @@ module.exports = {
     ]
   },
   devtool: 'source-maps'
-};
+}

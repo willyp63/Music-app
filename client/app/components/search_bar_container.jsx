@@ -13,6 +13,8 @@ import SEARCH_ENTITY_SCHEMA from '../entities/schemas/search'
 const QUERY_DEBOUNCE_TIME = 300
 const QUERY_MAX_WAIT_TIME = 1000
 
+export const DEFAULT_PAGE_SIZE = 30
+
 class SearchBar extends React.Component {
   constructor(props) {
     super(props)
@@ -21,7 +23,8 @@ class SearchBar extends React.Component {
       entityType: props.entityType
     }
     if (isNotEmpty(props.query)) {
-      this.props.onQuery(props.entityType, props.query)
+      this.props.onQuery(
+        props.entityType, props.query, props.page, props.pageSize)
     }
   }
   componentWillReceiveProps(newProps) {
@@ -29,12 +32,17 @@ class SearchBar extends React.Component {
       query: newProps.query,
       entityType: newProps.entityType
     })
-    this.props.onQuery(newProps.entityType, newProps.query)
+    this.props.onQuery(
+      newProps.entityType, newProps.query, newProps.page, newProps.pageSize)
   }
   onQuery() {
-    this.props.history.push(getUrlWithQueryParams(
-        '/' + this.state.entityType, {q: this.state.query}))
-    this.props.onQuery(this.state.entityType, this.state.query)
+    const currentUrl = this.props.location.pathname + this.props.location.search
+    const newUrl = getUrlWithQueryParams(
+        '/' + this.state.entityType, {q: this.state.query})
+    if (currentUrl !== newUrl) this.props.history.push(newUrl)
+
+    this.props.onQuery(this.state.entityType,
+      this.state.query, this.props.page, this.props.pageSize)
   }
   render() {
     const selectedTypeProps = SEARCH_ENTITY_SCHEMA[this.state.entityType]
@@ -54,13 +62,8 @@ class SearchBar extends React.Component {
     return (
       <div className="container">
       	<div className="row">
-          <div className="col-xs-2 col-md-2 search-bar-home-link"
-               onClick={() => this.props.history.push('/0')}>
-            <img src="http://www.clker.com/cliparts/M/B/X/W/R/H/headphones-md.png"
-                 width="32"
-                 height="32" />
-          </div>
-      		<div className="col-xs-10 col-md-8">
+          <div className="col-md-2"></div>
+      		<div className="col-md-8">
             <form className="input-group"
                   id="adv-search"
                   onSubmit={this.onQuery.bind(this)}>
@@ -96,6 +99,7 @@ class SearchBar extends React.Component {
               </div>
             </form>
           </div>
+          <div className="col-md-2"></div>
         </div>
     	</div>
     )
@@ -103,18 +107,23 @@ class SearchBar extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const query = parseQueryParamsString(ownProps.location.search).q
+  const urlParams = parseQueryParamsString(ownProps.location.search)
+  const query = urlParams.q
+  const page = urlParams.pg
+  const pageSize = urlParams.pgs
   const entityType = ownProps.match.params.entityType
   return {
     query: isNotEmpty(query) ? query : '',
-    entityType: isNotEmpty(entityType) ? parseInt(entityType) : ENTITY_TYPE.TRACK
+    entityType: isNotEmpty(entityType) ? parseInt(entityType) : ENTITY_TYPE.TRACK,
+    page: isNotEmpty(page) ? parseInt(page) : 1,
+    pageSize: isNotEmpty(pageSize) ? parseInt(pageSize) : DEFAULT_PAGE_SIZE
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onQuery: debounce((entityType, query) => {
-      dispatch(fetchEntities(entityType, query))
+    onQuery: debounce((entityType, query, page, pageSize) => {
+      dispatch(fetchEntities(entityType, query, page, pageSize))
     }, QUERY_DEBOUNCE_TIME, {'maxWait': QUERY_MAX_WAIT_TIME})
   }
 }

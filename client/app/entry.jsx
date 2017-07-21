@@ -10,11 +10,15 @@ import logger from 'redux-logger'
 import Routes from './components/routes'
 import entities from './reducers/entities'
 import playingTrack from './reducers/playing_track'
+import entityTotal from './reducers/entity_total'
+import entityPage from './reducers/entity_page'
 
 const store = createStore(
   combineReducers({
     entities,
-    playingTrack
+    playingTrack,
+    entityTotal,
+    entityPage
   }),
   {},
   applyMiddleware(thunk, logger)

@@ -1,10 +1,10 @@
 import { search, getInfo } from '../util/api/last_fm'
 
-export function fetchEntities(entityType, query) {
+export function fetchEntities(entityType, query, page, pageSize) {
   return function (dispatch) {
-    dispatch(requestEntities(entityType, query))
-    return search(entityType, query).then((entities) => {
-      dispatch(receiveEntities(entities))
+    dispatch(requestEntities(entityType, query, page, pageSize))
+    return search(entityType, query, page, pageSize).then((response) => {
+      dispatch(receiveEntities(response.results, response.total, response.page))
     })
   }
 }
@@ -15,8 +15,8 @@ function requestEntities(entityType, query) {
 }
 
 export const RECEIVE_ENTITIES = 'RECEIVE_ENTITIES'
-function receiveEntities(entities) {
-  return {type: RECEIVE_ENTITIES, entities}
+function receiveEntities(entities, total, page) {
+  return {type: RECEIVE_ENTITIES, entities, total, page}
 }
 
 export function fetchEntity(entityType, mbid) {

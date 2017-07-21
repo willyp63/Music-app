@@ -1,5 +1,5 @@
 .entity-show {
-  padding: 8px;
+  padding: 12px;
 }
 
 .entity-show-name {
@@ -9,11 +9,12 @@
 
 .entity-show-image {
   width: 100%;
-  max-width: 256px;
+  max-width: 120px;
+  max-width: 240px;
   height: auto;
 }
 
 .entity-show-play-button {
   font-size: 32px;
-  margin: 8px;
+  margin: 12px;
 }

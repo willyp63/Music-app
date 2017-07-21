@@ -1,10 +1,13 @@
 import React from 'react'
 
-import { isEmpty } from '../../util/misc/empty'
+import { isNotEmpty } from '../../util/misc/empty'
+
+const EMPTY_RENDER_VALUE = '--'
 
 export default function NameFormatter(name) {
-  if (isEmpty(name)) return ''
   return (
-    <div className="entity-show-name">{name}</div>
+    <div className="entity-show-name">
+      {isNotEmpty(name) ? name : EMPTY_RENDER_VALUE}
+    </div>
   )
 }

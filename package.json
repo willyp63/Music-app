@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
+    "generate-css": "node client/styles/js/*.js",
     "webpack": "webpack --config config/webpack.js --watch --colors"
   },
   "keywords": [],

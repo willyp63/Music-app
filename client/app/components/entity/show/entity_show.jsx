@@ -5,17 +5,9 @@ import { getNestedFieldValue } from '../../../util/misc/nested_field'
 import SHOW_ENTITY_SCHEMA from '../../../entities/schemas/show'
 
 function getRow(entity, field, fieldProperties, props) {
-  const dependentFields = {}
-  if(isNotEmpty(fieldProperties.dependentFields)) {
-    fieldProperties.dependentFields.forEach((dependentField) => {
-      dependentFields[dependentField] = getNestedFieldValue(entity, dependentField)
-    })
-  }
-
-  const formatter = fieldProperties.formatter
   return (
     <div key={field}>
-      {formatter(getNestedFieldValue(entity, field), dependentFields, props)}
+      {fieldProperties.formatter(getNestedFieldValue(entity, field), {props})}
     </div>
   )
 }

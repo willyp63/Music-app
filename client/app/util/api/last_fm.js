@@ -15,7 +15,21 @@ const QUERY_TYPE = Object.freeze({
   GET_INFO: 1
 })
 
-function makeQuery(queryType, entityType, {mbid, query}) {
+export const FAKE_ID_PREFIX = 'FAKE_ID_'
+const FAKE_ID_LENGTH = 16
+const FAKE_ID_POSSIBLE_CHARS =
+    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'
+
+function makeFakeId() {
+  let id = ''
+  for (let i = 0; i < FAKE_ID_LENGTH; i++) {
+    const j = Math.floor(Math.random() * FAKE_ID_POSSIBLE_CHARS.length)
+    id += FAKE_ID_POSSIBLE_CHARS[j]
+  }
+  return FAKE_ID_PREFIX + id
+}
+
+function makeQuery(queryType, entityType, {mbid, query, page, pageSize}) {
   return new Promise((resolve, reject) => {
     if (isEmpty(entityType)) return reject('Must provide [entityType].')
 
@@ -28,6 +42,8 @@ function makeQuery(queryType, entityType, {mbid, query}) {
         if (isEmpty(query)) return resolve([])
         queryParams[queryFieldName] = query
         queryParams.method = queryFieldName + '.search'
+        if (isNotEmpty(page)) queryParams.page = page
+        if (isNotEmpty(pageSize)) queryParams.limit = pageSize
         break
       case QUERY_TYPE.GET_INFO:
         if (isEmpty(mbid)) return reject('Must provide [mbid].')
@@ -42,16 +58,15 @@ function makeQuery(queryType, entityType, {mbid, query}) {
         case QUERY_TYPE.SEARCH:
           const responseFieldName = entityTypeProps.searchResponseFieldName
           const results = response.results[responseFieldName][queryFieldName]
-              // Disregard all entities without a mbid.
-              .filter((result) => isNotEmpty(result.mbid))
               // Map search entity to look like getInfo entity.
               .map((result) => {
+                result.mbid = result.mbid || makeFakeId()
                 if (entityType === ENTITY_TYPE.TRACK ||
                     entityType === ENTITY_TYPE.ALBUM) {
-                  result = Object.assign(result, {artist: {name: result.artist}})
+                  result.artist = {name: result.artist}
                 }
                 if (entityType === ENTITY_TYPE.TRACK) {
-                  result = Object.assign(result, {album: {image: result.image}})
+                  result.artist.image = result.image
                 }
                 return result
               })
@@ -61,7 +76,12 @@ function makeQuery(queryType, entityType, {mbid, query}) {
             mappedResults[result.mbid] =
                 Object.assign(result, {order: results.length - i, type: entityType})
           })
-          return resolve(mappedResults)
+          return resolve({
+            results: mappedResults,
+            total: response.results['opensearch:totalResults'],
+            page: response.results['opensearch:startIndex'] /
+                response.results['opensearch:itemsPerPage'] + 1
+          })
         case QUERY_TYPE.GET_INFO:
           return resolve(Object.assign(response[queryFieldName], {type: entityType}))
       }
@@ -69,8 +89,8 @@ function makeQuery(queryType, entityType, {mbid, query}) {
   })
 }
 
-export function search(entityType, query) {
-  return makeQuery(QUERY_TYPE.SEARCH, entityType, {query})
+export function search(entityType, query, page, pageSize) {
+  return makeQuery(QUERY_TYPE.SEARCH, entityType, {query, page, pageSize})
 }
 
 export function getInfo(entityType, mbid) {

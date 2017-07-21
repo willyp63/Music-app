@@ -1,7 +1,7 @@
 #player-bar {
   position: relative; /* To show shadow over #scroll-container */
   z-index: 1000; /* Same as above */
-  box-shadow: 0 -2px 5px #aaa;
+  box-shadow: 0 -3px 6px #aaa;
 }
 
 .audio-player-top-row {
@@ -10,7 +10,7 @@
 }
 
 .audio-player-track-info {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .audio-player-buttons {
@@ -22,10 +22,5 @@
 .audio-player-buttons button {
   flex-grow: 1;
   font-size: 20px;
-  margin: 8px 4px;
-}
-
-.audio-player-progress-bar {
-  height: 32px;
-  margin: 8px;
+  margin: 12px 6px;
 }

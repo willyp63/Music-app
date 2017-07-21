@@ -15,8 +15,15 @@ html, body {
   overflow-y: scroll;
   width: 100%;
   flex-grow: 1;
+  background-color: #eee;
 }
 
 #content {
-  background-color: #eee;
+  background-color: #fff;
+}
+
+.my-link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
 }
