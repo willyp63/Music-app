@@ -29862,6 +29862,11 @@ var SearchBarContainerComponent = function (_React$Component) {
       this.pushNewLocation.bind(this, this.props.type, newQuery)();
     }
   }, {
+    key: 'onQuery',
+    value: function onQuery() {
+      this.pushNewLocation.bind(this, this.props.type, this.props.query)();
+    }
+  }, {
     key: 'pushNewLocation',
     value: function pushNewLocation(type, query) {
       var currentUrl = this.props.location.pathname + this.props.location.search;
@@ -29886,8 +29891,9 @@ var SearchBarContainerComponent = function (_React$Component) {
               { className: 'col-md-8' },
               _react2.default.createElement(_search_form2.default, { query: this.props.query,
                 type: this.props.type,
+                onTypeChange: this.onTypeChange.bind(this),
                 onQueryChange: this.onQueryChange.bind(this),
-                onTypeChange: this.onTypeChange.bind(this) })
+                onQuery: this.onQuery.bind(this) })
             ),
             _react2.default.createElement('div', { className: 'col-md-2' })
           )
@@ -30339,7 +30345,8 @@ var SearchForm = function SearchForm(_ref) {
   var query = _ref.query,
       type = _ref.type,
       onQueryChange = _ref.onQueryChange,
-      onTypeChange = _ref.onTypeChange;
+      onTypeChange = _ref.onTypeChange,
+      onQuery = _ref.onQuery;
 
   var typeProperties = _schema2.default[type];
   var typeOptions = Object.values(_entity_type2.default).map(function (type) {
@@ -30354,16 +30361,20 @@ var SearchForm = function SearchForm(_ref) {
     );
   });
   return _react2.default.createElement(
-    'form',
-    { className: 'input-group', id: 'adv-search', onSubmit: onQueryChange },
-    _react2.default.createElement('input', { type: 'text',
-      className: 'form-control',
-      autoComplete: 'off',
-      value: query,
-      placeholder: typeProperties.placeHolder,
-      onChange: function onChange(e) {
-        return onQueryChange(e.target.value);
-      } }),
+    'div',
+    { className: 'input-group' },
+    _react2.default.createElement(
+      'form',
+      { onSubmit: onQuery },
+      _react2.default.createElement('input', { type: 'text',
+        className: 'form-control',
+        autoComplete: 'off',
+        value: query,
+        placeholder: typeProperties.placeHolder,
+        onChange: function onChange(e) {
+          return onQueryChange(e.target.value);
+        } })
+    ),
     _react2.default.createElement(
       'div',
       { className: 'input-group-btn' },
@@ -30389,7 +30400,7 @@ var SearchForm = function SearchForm(_ref) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'btn btn-primary', onClick: onQueryChange },
+          { className: 'btn btn-primary', onClick: onQuery },
           _react2.default.createElement('span', { className: 'glyphicon glyphicon-search', 'aria-hidden': 'true' })
         )
       )

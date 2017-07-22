@@ -26,6 +26,9 @@ class SearchBarContainerComponent extends React.Component {
   onQueryChange(newQuery) {
     this.pushNewLocation.bind(this, this.props.type, newQuery)()
   }
+  onQuery() {
+    this.pushNewLocation.bind(this, this.props.type, this.props.query)()
+  }
   pushNewLocation(type, query) {
     const currentUrl = this.props.location.pathname + this.props.location.search
     const newUrl = getUrlWithUrlAndParams('/' + type, {q: query})
@@ -40,8 +43,9 @@ class SearchBarContainerComponent extends React.Component {
         		<div className="col-md-8">
               <SearchForm query={this.props.query}
                           type={this.props.type}
+                          onTypeChange={this.onTypeChange.bind(this)}
                           onQueryChange={this.onQueryChange.bind(this)}
-                          onTypeChange={this.onTypeChange.bind(this)}/>
+                          onQuery={this.onQuery.bind(this)}/>
             </div>
             <div className="col-md-2"></div>
           </div>
