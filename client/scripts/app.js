@@ -30630,6 +30630,7 @@ var Player = function (_React$Component) {
     value: function componentWillReceiveProps(newProps) {
       if ((0, _empty.isNotEmpty)(newProps.track) && (0, _empty.isNotEmpty)(newProps.track.ytid)) {
         this.audioPlayer.load();
+        this.setState({ playing: false });
       }
     }
   }, {
@@ -30724,7 +30725,7 @@ var Player = function (_React$Component) {
   return Player;
 }(_react2.default.Component);
 
-var AUTO_PLAY = false;
+var AUTO_PLAY = true;
 
 var STREAM_BASE_URL = '/stream?ytid=';
 

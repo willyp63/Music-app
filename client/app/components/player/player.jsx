@@ -26,6 +26,7 @@ class Player extends React.Component {
   componentWillReceiveProps(newProps) {
     if (isNotEmpty(newProps.track) && isNotEmpty(newProps.track.ytid)) {
       this.audioPlayer.load()
+      this.setState({playing: false})
     }
   }
   componentDidUpdate() {
@@ -90,7 +91,7 @@ class Player extends React.Component {
   }
 }
 
-const AUTO_PLAY = false
+const AUTO_PLAY = true
 
 const STREAM_BASE_URL = '/stream?ytid='
 
