@@ -4,5 +4,5 @@ node_modules
 client/scripts/app.js
 client/scripts/app.js.map
 
-# API keys
+# API keys and other secret things...
 client/app/secrets
