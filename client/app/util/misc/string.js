@@ -24,7 +24,7 @@ export const parseUrlParamsString = (str) => {
 export const getUrlWithUrlAndParams = (baseUrl, params) => {
   const paramsStr = Object.keys(params)
       .filter((key) => isNotEmpty(key) && isNotEmpty(params[key]))
-      .map((key) => key + '=' + params[key])
+      .map((key) => key + '=' + encodeURIComponent(params[key]))
       .join('&')
   return isNotEmpty(paramsStr) ? (baseUrl + '?' + paramsStr) : baseUrl
 }

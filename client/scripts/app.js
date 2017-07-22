@@ -7702,7 +7702,7 @@ var getUrlWithUrlAndParams = exports.getUrlWithUrlAndParams = function getUrlWit
   var paramsStr = Object.keys(params).filter(function (key) {
     return (0, _empty.isNotEmpty)(key) && (0, _empty.isNotEmpty)(params[key]);
   }).map(function (key) {
-    return key + '=' + params[key];
+    return key + '=' + encodeURIComponent(params[key]);
   }).join('&');
   return (0, _empty.isNotEmpty)(paramsStr) ? baseUrl + '?' + paramsStr : baseUrl;
 };
@@ -29900,12 +29900,12 @@ var SearchBarContainerComponent = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var type = ownProps.match.params.type;
   var urlParams = (0, _string.parseUrlParamsString)(ownProps.location.search);
-  var query = urlParams.q;
-  var page = urlParams.pg;
+  var query = (0, _empty.isNotEmpty)(urlParams.q) ? decodeURIComponent(urlParams.q) : '';
+  var page = (0, _empty.isNotEmpty)(urlParams.pg) ? parseInt(urlParams.pg) : 1;
   return {
     type: (0, _empty.isNotEmpty)(type) ? parseInt(type) : _entity_type2.default.TRACK,
-    query: (0, _empty.isNotEmpty)(query) ? query : '',
-    page: (0, _empty.isNotEmpty)(page) ? parseInt(page) : 1
+    query: query,
+    page: page
   };
 };
 

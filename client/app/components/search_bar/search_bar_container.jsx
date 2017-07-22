@@ -58,12 +58,12 @@ class SearchBarContainerComponent extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const type = ownProps.match.params.type
   const urlParams = parseUrlParamsString(ownProps.location.search)
-  const query = urlParams.q
-  const page = urlParams.pg
+  const query = isNotEmpty(urlParams.q) ? decodeURIComponent(urlParams.q) : ''
+  const page = isNotEmpty(urlParams.pg) ? parseInt(urlParams.pg) : 1
   return {
     type: isNotEmpty(type) ? parseInt(type) : ENTITY_TYPE.TRACK,
-    query: isNotEmpty(query) ? query : '',
-    page: isNotEmpty(page) ? parseInt(page) : 1
+    query: query,
+    page: page
   }
 }
 
