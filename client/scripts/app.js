@@ -29619,13 +29619,13 @@ var SearchResultsContainerCompoent = function (_React$Component) {
         null,
         _react2.default.createElement(
           'div',
-          { className: 'container' },
+          { className: 'container search-results-container' },
           _react2.default.createElement(
             'div',
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'col-md-12' },
+              { className: 'col-xs-12 col-md-12' },
               _react2.default.createElement(
                 'div',
                 { className: 'search-results-sticky-bar' },

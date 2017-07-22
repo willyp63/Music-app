@@ -35,9 +35,9 @@ class SearchResultsContainerCompoent extends React.Component {
   render() {
     return (
       <App>
-        <div className="container">
+        <div className="container search-results-container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-xs-12 col-md-12">
               <div className="search-results-sticky-bar">
                 <PaginationBar numResults={this.props.total}
                                pageNum={this.props.page}

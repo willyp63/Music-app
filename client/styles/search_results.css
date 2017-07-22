@@ -1,3 +1,9 @@
+@media (max-width: 600px) {
+  .search-results-container {
+    padding: 0 !important; /* Override Bootstrap to give container 100% width */
+  }
+}
+
 .search-results-sticky-bar {
   position: sticky;
   position: -webkit-sticky;
