@@ -30858,6 +30858,8 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _empty = __webpack_require__(8);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PaginationBar = function PaginationBar(_ref) {
@@ -30867,46 +30869,46 @@ var PaginationBar = function PaginationBar(_ref) {
       onPrevPage = _ref.onPrevPage,
       onNextPage = _ref.onNextPage;
 
-  if (numResults === 0) return null;
+  if ((0, _empty.isEmpty)(numResults) || numResults === 0) return null;
   return _react2.default.createElement(
-    "div",
-    { className: "my-row search-results-pagination-bar" },
+    'div',
+    { className: 'my-row search-results-pagination-bar' },
     _react2.default.createElement(
-      "div",
-      { className: "my-col-10 search-results-total-count" },
+      'div',
+      { className: 'my-col-10 search-results-total-count' },
       numResults,
-      " results"
+      ' results'
     ),
     _react2.default.createElement(
-      "div",
-      { className: "my-col-10 search-results-page-number" },
-      "Page: ",
+      'div',
+      { className: 'my-col-10 search-results-page-number' },
+      'Page: ',
       pageNum,
-      " of ",
+      ' of ',
       numPages
     ),
     _react2.default.createElement(
-      "div",
-      { className: "my-col-4 search-results-page-buttons" },
+      'div',
+      { className: 'my-col-4 search-results-page-buttons' },
       _react2.default.createElement(
-        "div",
-        { className: "input-group-btn" },
+        'div',
+        { className: 'input-group-btn' },
         _react2.default.createElement(
-          "div",
-          { className: "btn-group", role: "group" },
+          'div',
+          { className: 'btn-group', role: 'group' },
           _react2.default.createElement(
-            "button",
-            { type: "button",
-              className: "btn btn-primary",
+            'button',
+            { type: 'button',
+              className: 'btn btn-primary',
               onClick: onPrevPage },
-            _react2.default.createElement("span", { className: "glyphicon glyphicon-chevron-left", "aria-hidden": "true" })
+            _react2.default.createElement('span', { className: 'glyphicon glyphicon-chevron-left', 'aria-hidden': 'true' })
           ),
           _react2.default.createElement(
-            "button",
-            { type: "button",
-              className: "btn btn-primary",
+            'button',
+            { type: 'button',
+              className: 'btn btn-primary',
               onClick: onNextPage },
-            _react2.default.createElement("span", { className: "glyphicon glyphicon-chevron-right", "aria-hidden": "true" })
+            _react2.default.createElement('span', { className: 'glyphicon glyphicon-chevron-right', 'aria-hidden': 'true' })
           )
         )
       )

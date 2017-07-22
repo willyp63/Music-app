@@ -1,8 +1,9 @@
 import React from 'react'
+import { isEmpty } from '../../util/misc/empty'
 
 const PaginationBar =
     ({numResults, pageNum, numPages, onPrevPage, onNextPage}) => {
-  if (numResults === 0) return null
+  if (isEmpty(numResults) || numResults === 0) return null
   return (
     <div className="my-row search-results-pagination-bar">
       <div className="my-col-10 search-results-total-count">
