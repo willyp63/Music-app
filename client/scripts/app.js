@@ -29861,6 +29861,7 @@ var SearchBarContainerComponent = function (_React$Component) {
   }, {
     key: 'pushNewLocation',
     value: function pushNewLocation(type, query) {
+      /* TODO: Push new location only when fetching entities not every time the query changes */
       var currentUrl = this.props.location.pathname + this.props.location.search;
       var newUrl = (0, _string.getUrlWithUrlAndParams)('/' + type, { q: query });
       if (currentUrl !== newUrl) this.props.history.push(newUrl);

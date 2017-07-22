@@ -30,6 +30,7 @@ class SearchBarContainerComponent extends React.Component {
     this.pushNewLocation.bind(this, this.props.type, this.props.query)()
   }
   pushNewLocation(type, query) {
+    /* TODO: Push new location only when fetching entities not every time the query changes */
     const currentUrl = this.props.location.pathname + this.props.location.search
     const newUrl = getUrlWithUrlAndParams('/' + type, {q: query})
     if (currentUrl !== newUrl) this.props.history.push(newUrl)
