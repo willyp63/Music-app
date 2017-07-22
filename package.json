@@ -1,11 +1,10 @@
 {
   "name": "music_app",
   "version": "1.0.0",
-  "description": "Playground app for testing youtube/musicbrainz API",
-  "main": "index.js",
+  "description": "Playground app for testing different music cataloging APIs",
+  "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "generate-css": "node client/styles/js/*.js",
     "webpack": "webpack --config config/webpack.js --watch --colors"
   },
   "keywords": [],
@@ -25,7 +24,6 @@
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",

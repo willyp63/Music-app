@@ -4,37 +4,39 @@ import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { createHashHistory } from 'history'
+
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 
-import Routes from './components/routes'
-import entities from './reducers/entities'
-import playingTrack from './reducers/playing_track'
-import entityTotal from './reducers/entity_total'
-import entityPage from './reducers/entity_page'
+import Routes from './routes'
 
+import searchResults from './reducers/search_results'
+import playingTrack from './reducers/playing_track'
+
+/// App store.
+///
+/// Each new reducer must be added here.
 const store = createStore(
   combineReducers({
-    entities,
-    playingTrack,
-    entityTotal,
-    entityPage
+    searchResults,
+    playingTrack
   }),
   {},
   applyMiddleware(thunk, logger)
 )
 
-const history = createHashHistory()
-
+/// Root component.
+///
+/// Provides the store and hash history.
 const Root = () => (
   <Provider store={store}>
-    <HashRouter history={history}>
-      <Routes/>
+    <HashRouter history={createHashHistory()}>
+      <Routes />
     </HashRouter>
   </Provider>
 )
 
+/// Render React app after document is ready.
 jQuery(document).ready(() => {
-  const root = document.getElementById('root')
-  ReactDOM.render(<Root/>, root)
+  ReactDOM.render(<Root/>, document.getElementById('root'))
 })

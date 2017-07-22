@@ -1,7 +1,7 @@
 import React from 'react'
 
-import SearchBarContainer from './search_bar_container'
-import PlayerContainer from './player_container'
+import SearchBarContainer from './search_bar/search_bar_container'
+import PlayerContainer from './player/player_container'
 
 class App extends React.Component {
   componentDidMount() {
@@ -11,21 +11,9 @@ class App extends React.Component {
   render() {
     return (
       <div id="app">
-        <div id="search-bar">
-          <SearchBarContainer/>
-        </div>
-        <div id="scroll-container">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12" id="content">
-                {this.props.children}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="player-bar">
-          <PlayerContainer/>
-        </div>
+        <SearchBarContainer />
+        <div id="scroll-container">{this.props.children}</div>
+        <PlayerContainer />
       </div>
     )
   }

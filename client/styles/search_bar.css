@@ -1,14 +1,8 @@
-#search-bar {
+.search-bar {
   position: relative; /* To show shadow over #scroll-container */
   z-index: 1000; /* Same as above */
   box-shadow: 0 3px 6px #aaa;
   padding: 12px;
-}
-
-.search-bar-home-link {
-  cursor: pointer;
-  display: flex;
-  justify-content: space-around;
 }
 
 .dropdown.dropdown-lg .dropdown-menu {
@@ -36,7 +30,7 @@
   margin-left: -1px;
 }
 
-#search-bar .btn-group .btn:first-child {
+.search-bar .btn-group .btn:first-child {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }

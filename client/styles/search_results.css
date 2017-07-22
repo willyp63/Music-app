@@ -1,0 +1,58 @@
+.search-results-sticky-bar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 999; /* Search bar is 1000 */
+  background-color: #fff;
+}
+
+.search-results-pagination-bar {
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.search-results-page-number {
+  text-align: right;
+  margin-right: 12px;
+}
+
+.search-results-column-headers {
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+}
+
+.search-results {
+  background-color: #fff;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.search-result:last-child {
+  border-bottom: 0;
+}
+
+.search-result-image,
+.search-result-name,
+.search-result-plain-text,
+.search-result-play-button { padding: 6px; }
+
+.search-result-image {
+  width: 100%;
+  max-width: 96px;
+  min-width: 36px;
+  height: auto;
+}
+
+.search-result-name {
+  font-weight: bold;
+}
+
+.search-result-play-button {
+  display: flex;
+  justify-content: space-around;
+}

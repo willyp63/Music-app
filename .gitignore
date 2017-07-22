@@ -1,0 +1,8 @@
+node_modules
+
+# Bundled script files
+client/scripts/app.js
+client/scripts/app.js.map
+
+# API keys
+client/app/secrets

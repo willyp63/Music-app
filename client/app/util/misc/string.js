@@ -1,6 +1,8 @@
 import { isEmpty, isNotEmpty } from './empty'
 
-export function parseQueryParamsString(str) {
+/// Parses a string of the form '?x=1&y=2' and returns the params as an
+/// object, in this case {x: 1, y: 2}.
+export const parseUrlParamsString = (str) => {
   let matches = str.match(/\?(.*)/)
   if (isEmpty(matches) || isEmpty(matches[1])) return {}
   const paramsStr =  matches[1]
@@ -17,12 +19,12 @@ export function parseQueryParamsString(str) {
   return params
 }
 
-export function getUrlWithQueryParams(baseUrl, queryParams) {
-  const queryParamsStr = Object.keys(queryParams)
-      .filter((key) => isNotEmpty(key) && isNotEmpty(queryParams[key]))
-      .map((key) => key + '=' + queryParams[key])
+/// Returns a URL with the given url as a base and the given params added on
+/// in the form '{baseUrl}?{field1}={value1}&...'.
+export const getUrlWithUrlAndParams = (baseUrl, params) => {
+  const paramsStr = Object.keys(params)
+      .filter((key) => isNotEmpty(key) && isNotEmpty(params[key]))
+      .map((key) => key + '=' + params[key])
       .join('&')
-  return isNotEmpty(queryParamsStr)
-      ? baseUrl + '?' + queryParamsStr
-      : baseUrl
+  return isNotEmpty(paramsStr) ? (baseUrl + '?' + paramsStr) : baseUrl
 }

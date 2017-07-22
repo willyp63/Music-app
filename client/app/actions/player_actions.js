@@ -1,31 +1,35 @@
-import { getYtid } from '../util/api/youtube'
-import { fetchEntity } from './entity_actions'
-import ENTITY_TYPE from '../entities/type'
+import { getYtInfo } from '../util/api/youtube/service'
+import ENTITY_TYPE from '../util/api/last_fm/entity_type'
 
-export function playTrack(track) {
+/// Begins playing a track by fetching its info from Youtube.
+export const playTrack = (track) => {
+  // Make sure we are playing a track.
   if (track.type !== ENTITY_TYPE.TRACK) {
     console.error('Tried playing an entity other than Track!!!')
     return
   }
-  return function (dispatch) {
-    dispatch(requestYtid(track))
-    return getYtid(track.name, track.artist.name).then(({ytid, duration}) => {
-      dispatch(receiveYtid(ytid, duration))
+
+  return (dispatch) => {
+    dispatch(_requestYtInfo(track))
+    return getYtInfo(track.name, track.artist.name)
+        .then((ytInfo) => {
+      dispatch(_receiveYtInfo(ytInfo))
     })
   }
 }
 
-export const REQUEST_YTID = 'REQUEST_YTID'
-function requestYtid(track) {
-  return {type: REQUEST_YTID, track}
-}
-
-export const RECEIVE_YTID = 'RECEIVE_YTID'
-function receiveYtid(ytid, duration) {
-  return {type: RECEIVE_YTID, ytid, duration}
-}
-
-export const CLOSE_PLAYER = 'CLOSE_PLAYER'
+/// Closes the player by removing [playingTrack] from the store.
 export function closePlayer() {
   return {type: CLOSE_PLAYER}
 }
+export const CLOSE_PLAYER = 'CLOSE_PLAYER'
+
+function _requestYtInfo(track) {
+  return {type: REQUEST_YT_INFO, track}
+}
+export const REQUEST_YT_INFO = 'REQUEST_YT_INFO'
+
+function _receiveYtInfo(ytInfo) {
+  return {type: RECEIVE_YT_INFO, ytInfo}
+}
+export const RECEIVE_YT_INFO = 'RECEIVE_YT_INFO'

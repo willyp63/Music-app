@@ -1,43 +1,43 @@
-#player-bar {
+.player-bar {
   position: relative; /* To show shadow over #scroll-container */
   z-index: 1000; /* Same as above */
   box-shadow: 0 -3px 6px #aaa;
   padding: 0 12px;
 }
 
-.audio-player-top-bar {
+.player-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 6px 0;
 }
 
-.audio-player-track-info {
+.player-track-info {
   display: inline;
   flex-grow: 1;
 }
 
-.audio-player-duration {
+.player-end-time-label {
   float: right;
 }
 
-#audio-player-progress-bar {
+.player-progress-bar {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   background: transparent; /* Otherwise white in Chrome */
   margin-bottom: 12px;
   margin-top: 6px;
 }
 
-#audio-player-progress-bar::-webkit-slider-thumb {
+.player-progress-bar::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
 
-#audio-player-progress-bar:focus {
+.player-progress-bar:focus {
   outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
 }
 
 /* Special styling for WebKit/Blink */
-#audio-player-progress-bar::-webkit-slider-thumb {
+.player-progress-bar::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 24px;
   width: 18px;
@@ -48,7 +48,7 @@
   border: 1px solid #aaa;
 }
 
-#audio-player-progress-bar::-webkit-slider-runnable-track {
+.player-progress-bar::-webkit-slider-runnable-track {
   width: 100%;
   height: 12px;
   cursor: pointer;
@@ -57,6 +57,6 @@
   border: 1px solid #204d74;
 }
 
-.audio-player-buttons {
+.player-controls {
   display: inline-flex !important;
 }

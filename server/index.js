@@ -8,32 +8,24 @@ const INDEX_HTML_PATH = path.resolve(__dirname, '../client/index.html')
 
 const app = Express()
 
-app.get('/', function(req, res) {
-  res.sendFile(INDEX_HTML_PATH)
-})
+/// Serves single page React app.
+app.get('/', (_, res) => res.sendFile(INDEX_HTML_PATH))
 
-/// Returns the Youtube streaming url for the given video id.
-const getYoutubeUrl = (videoId) => `http://youtube.com/watch?v=${videoId}`
-
-/// Attempts to stream audio for the given Youtube video id.
-///
-/// [ytid] (required): The Youtube video id.
-app.get('/stream', function (req, res) {
-  youtubeStream(getYoutubeUrl(req.query.ytid)).pipe(res)
-})
-
+/// Serve app style sheets & script files.
 app.use('/styles', Express.static(STYLES_PATH))
 app.use('/scripts', Express.static(SCRIPTS_PATH))
 
-app.use(function(req, res, next) {
-  try {
-    next()
-  } catch (exception) {
-    res.status(500).send(exception)
-  }
+/// Serves an audio stream for the requested Youtube video, via
+/// youtube-audio-stream (https://github.com/jameskyburz/youtube-audio-stream)
+///
+/// [ytid] *required* : The requested Youtube viedo's id
+app.get('/stream', (req, res) => {
+  youtubeStream(getYoutubeUrl(req.query.ytid)).pipe(res)
 })
 
+/// Start server.
 const port = process.env.PORT || 8080
-app.listen(port, function () {
-  console.log(`Serving app @ http://localhost:${port}/#/`)
-})
+app.listen(port, () => console.log(`Serving @ http://localhost:${port}/`))
+
+/// Returns the Url for a Youtube video given that video's id.
+const getYoutubeUrl = (videoId) => `http://youtube.com/watch?v=${videoId}`
