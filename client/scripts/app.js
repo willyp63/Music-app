@@ -29619,27 +29619,19 @@ var SearchResultsContainerCompoent = function (_React$Component) {
         null,
         _react2.default.createElement(
           'div',
-          { className: 'container search-results-container' },
+          { className: 'search-results-container' },
           _react2.default.createElement(
             'div',
-            { className: 'row' },
-            _react2.default.createElement(
-              'div',
-              { className: 'col-xs-12 col-md-12' },
-              _react2.default.createElement(
-                'div',
-                { className: 'search-results-sticky-bar' },
-                _react2.default.createElement(_pagination_bar2.default, { numResults: this.props.total,
-                  pageNum: this.props.page,
-                  numPages: this._totalPages(),
-                  onPrevPage: this.prevPage.bind(this),
-                  onNextPage: this.nextPage.bind(this) }),
-                _react2.default.createElement(_column_headers2.default, { type: this.props.type })
-              ),
-              _react2.default.createElement(_search_results2.default, { results: this.props.results,
-                onTrackPlay: this.props.onTrackPlay })
-            )
-          )
+            { className: 'search-results-sticky-bar' },
+            _react2.default.createElement(_pagination_bar2.default, { numResults: this.props.total,
+              pageNum: this.props.page,
+              numPages: this._totalPages(),
+              onPrevPage: this.prevPage.bind(this),
+              onNextPage: this.nextPage.bind(this) }),
+            _react2.default.createElement(_column_headers2.default, { type: this.props.type })
+          ),
+          _react2.default.createElement(_search_results2.default, { results: this.props.results,
+            onTrackPlay: this.props.onTrackPlay })
         )
       );
     }
@@ -30974,11 +30966,12 @@ var ColumnHeaders = function ColumnHeaders(_ref) {
 };
 
 var _getColumnHeader = function _getColumnHeader(field, fieldProperties) {
-  var columnClassName = (0, _empty.isNotEmpty)(fieldProperties.width) ? 'my-col-' + fieldProperties.width : '';
+  var label = (0, _empty.isNotEmpty)(fieldProperties.label) ? fieldProperties.label : '';
+  var className = (0, _empty.isNotEmpty)(fieldProperties.width) ? 'search-result-column-header my-col-' + fieldProperties.width : 'search-result-column-header';
   return _react2.default.createElement(
     'div',
-    { key: field, className: columnClassName },
-    (0, _empty.isNotEmpty)(fieldProperties.label) ? fieldProperties.label : ''
+    { key: field, className: className },
+    label
   );
 };
 

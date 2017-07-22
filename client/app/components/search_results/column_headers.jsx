@@ -21,14 +21,11 @@ const ColumnHeaders = ({type}) => {
 }
 
 const _getColumnHeader = (field, fieldProperties) => {
-  const columnClassName = isNotEmpty(fieldProperties.width)
-      ? 'my-col-' + fieldProperties.width
-      : ''
-  return (
-    <div key={field} className={columnClassName}>
-      {isNotEmpty(fieldProperties.label) ? fieldProperties.label : ''}
-    </div>
-  )
+  const label = isNotEmpty(fieldProperties.label) ? fieldProperties.label : ''
+  let className = isNotEmpty(fieldProperties.width)
+      ? 'search-result-column-header my-col-' + fieldProperties.width
+      : 'search-result-column-header'
+  return (<div key={field} className={className}>{label}</div>)
 }
 
 export default ColumnHeaders

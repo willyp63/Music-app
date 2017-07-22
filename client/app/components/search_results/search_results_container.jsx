@@ -35,21 +35,17 @@ class SearchResultsContainerCompoent extends React.Component {
   render() {
     return (
       <App>
-        <div className="container search-results-container">
-          <div className="row">
-            <div className="col-xs-12 col-md-12">
-              <div className="search-results-sticky-bar">
-                <PaginationBar numResults={this.props.total}
-                               pageNum={this.props.page}
-                               numPages={this._totalPages()}
-                               onPrevPage={this.prevPage.bind(this)}
-                               onNextPage={this.nextPage.bind(this)}/>
-                <ColumnHeaders type={this.props.type} />
-              </div>
-              <SearchResults results={this.props.results}
-                             onTrackPlay={this.props.onTrackPlay} />
-            </div>
+        <div className="search-results-container">
+          <div className="search-results-sticky-bar">
+            <PaginationBar numResults={this.props.total}
+                           pageNum={this.props.page}
+                           numPages={this._totalPages()}
+                           onPrevPage={this.prevPage.bind(this)}
+                           onNextPage={this.nextPage.bind(this)}/>
+            <ColumnHeaders type={this.props.type} />
           </div>
+          <SearchResults results={this.props.results}
+                         onTrackPlay={this.props.onTrackPlay} />
         </div>
       </App>
     )

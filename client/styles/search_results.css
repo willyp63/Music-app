@@ -1,6 +1,10 @@
-@media (max-width: 600px) {
+.search-results-container {
+  padding: 0 12%;
+}
+
+@media (max-width: 991px) {
   .search-results-container {
-    padding: 0 !important; /* Override Bootstrap to give container 100% width */
+    padding: 0;
   }
 }
 
@@ -13,7 +17,7 @@
 }
 
 .search-results-pagination-bar {
-  padding: 12px;
+  padding: 9px 12px 6px 12px;
   border-bottom: 1px solid #ccc;
 }
 
@@ -23,9 +27,14 @@
 }
 
 .search-results-column-headers {
-  padding: 12px;
+  padding: 6px 0;
   border-bottom: 1px solid #ccc;
   font-weight: bold;
+}
+
+.search-result-column-header {
+  padding: 0 6px;
+  border-right: 1px solid #ccc;
 }
 
 .search-results {
