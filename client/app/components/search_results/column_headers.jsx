@@ -3,10 +3,10 @@ import React from 'react'
 import { isEmpty, isNotEmpty } from '../../util/misc/empty'
 import SCHEMA from './schema'
 
-const ColumnHeaders = ({type}) => {
-  if (isEmpty(type)) return null
+const ColumnHeaders = ({entityType}) => {
+  if (isEmpty(entityType)) return null
   const columnHeaders = []
-  const typeSchema = SCHEMA[type]
+  const typeSchema = SCHEMA[entityType]
   Object.keys(typeSchema)
       .sort((a, b) => typeSchema[a].order - typeSchema[b].order)
       .forEach((field) => {

@@ -32,7 +32,7 @@ export const getYtInfo = (name, artist) => {
 /// Accepts a string of the form PT3M46S and return the number of seconds,
 /// in this case 226 (3 * 60 + 46).
 const parseYtDuration = (durationStr) => {
-  const matches = durationStr.match(/PT(\d*)M(\d*)S/)
+  const matches = durationStr.match(/PT(\d+)M(\d+)S/)
   return isNotEmpty(matches)
       ? parseInt(matches[1]) * 60 + parseInt(matches[2])
       : 0

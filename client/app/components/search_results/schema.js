@@ -31,7 +31,7 @@ INDEX_ENTITY_SCHEMA[ENTITY_TYPE.TRACK] = {
   },
   'listeners': {
     visible: true,
-    label: 'Listeners',
+    label: 'Popularity',
     component: SearchResultPlainText,
     width: 2,
     order: 3

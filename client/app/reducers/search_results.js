@@ -1,7 +1,7 @@
 import { RECEIVE_ENTITIES } from '../actions/search_actions'
 
 const DEFAULT_STATE = Object.freeze({
-  entities: [],
+  results: [],
   page: 1,
   total: 0
 })

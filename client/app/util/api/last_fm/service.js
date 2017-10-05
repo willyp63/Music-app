@@ -1,5 +1,5 @@
 import { isEmpty, isNotEmpty } from '../../misc/empty'
-import { getUrlWithUrlAndParams } from '../../misc/string'
+import { getUrlWithUpdatedParams } from '../../misc/url'
 
 import SCHEMA from './schema'
 import ENTITY_TYPE from './entity_type'
@@ -65,7 +65,7 @@ const makeQuery = (queryType, entityType, {mbid, query, page, pageSize}) => {
         break
     }
 
-    const queryUrl = getUrlWithUrlAndParams(BASE_URL, queryParams)
+    const queryUrl = getUrlWithUpdatedParams(BASE_URL, queryParams)
     $.get(queryUrl, (response) => {
       switch (queryType) {
         case QUERY_TYPE.SEARCH:

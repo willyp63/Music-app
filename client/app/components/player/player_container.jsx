@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { isNotEmpty } from '../../util/misc/empty'
 
 import { closePlayer } from '../../actions/player_actions'
 import Player from './player'
 
-const PlayerContainerComponent = ({track, onClose}) => (
+const PlayerContainerComponent = ({track, onClose}) => isNotEmpty(track) ? (
   <div className="player-bar">
     <div className="container">
       <div className="row">
@@ -16,7 +17,7 @@ const PlayerContainerComponent = ({track, onClose}) => (
       </div>
     </div>
   </div>
-)
+) : null
 
 const mapStateToProps = (state) => {
   return {

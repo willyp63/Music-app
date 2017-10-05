@@ -13,7 +13,7 @@ import Routes from './routes'
 import searchResults from './reducers/search_results'
 import playingTrack from './reducers/playing_track'
 
-/// App store.
+/// Store.
 ///
 /// Each new reducer must be added here.
 const store = createStore(
@@ -27,11 +27,11 @@ const store = createStore(
 
 /// Root component.
 ///
-/// Provides the store and hash history.
+/// Provides the store, hash history, and routes.
 const Root = () => (
   <Provider store={store}>
     <HashRouter history={createHashHistory()}>
-      <Routes />
+        <Routes />
     </HashRouter>
   </Provider>
 )

@@ -7666,48 +7666,7 @@ var createTransitionManager = function createTransitionManager() {
 /* harmony default export */ __webpack_exports__["a"] = (createTransitionManager);
 
 /***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getUrlWithUrlAndParams = exports.parseUrlParamsString = undefined;
-
-var _empty = __webpack_require__(8);
-
-/// Parses a string of the form '?x=1&y=2' and returns the params as an
-/// object, in this case {x: 1, y: 2}.
-var parseUrlParamsString = exports.parseUrlParamsString = function parseUrlParamsString(str) {
-  var matches = str.match(/\?(.*)/);
-  if ((0, _empty.isEmpty)(matches) || (0, _empty.isEmpty)(matches[1])) return {};
-  var paramsStr = matches[1];
-  var paramStrings = paramsStr.split('&');
-  var params = {};
-  paramStrings.forEach(function (paramStr) {
-    matches = paramStr.match(/(.*)=(.*)/);
-    if ((0, _empty.isNotEmpty)(matches) && (0, _empty.isNotEmpty)(matches[1]) && (0, _empty.isNotEmpty)(matches[2])) {
-      params[matches[1]] = matches[2];
-    }
-  });
-  return params;
-};
-
-/// Returns a URL with the given url as a base and the given params added on
-/// in the form '{baseUrl}?{field1}={value1}&...'.
-var getUrlWithUrlAndParams = exports.getUrlWithUrlAndParams = function getUrlWithUrlAndParams(baseUrl, params) {
-  var paramsStr = Object.keys(params).filter(function (key) {
-    return (0, _empty.isNotEmpty)(key) && (0, _empty.isNotEmpty)(params[key]);
-  }).map(function (key) {
-    return key + '=' + encodeURIComponent(params[key]);
-  }).join('&');
-  return (0, _empty.isNotEmpty)(paramsStr) ? baseUrl + '?' + paramsStr : baseUrl;
-};
-
-/***/ }),
+/* 69 */,
 /* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7721,7 +7680,7 @@ exports.FAKE_ID_PREFIX = exports.getInfo = exports.search = exports.DEFAULT_PAGE
 
 var _empty = __webpack_require__(8);
 
-var _string = __webpack_require__(69);
+var _url = __webpack_require__(304);
 
 var _schema = __webpack_require__(281);
 
@@ -7798,7 +7757,7 @@ var makeQuery = function makeQuery(queryType, entityType, _ref) {
         break;
     }
 
-    var queryUrl = (0, _string.getUrlWithUrlAndParams)(BASE_URL, queryParams);
+    var queryUrl = (0, _url.getUrlWithUpdatedParams)(BASE_URL, queryParams);
     $.get(queryUrl, function (response) {
       switch (queryType) {
         case QUERY_TYPE.SEARCH:
@@ -7961,7 +7920,7 @@ INDEX_ENTITY_SCHEMA[_entity_type2.default.TRACK] = {
   },
   'listeners': {
     visible: true,
-    label: 'Listeners',
+    label: 'Popularity',
     component: _plain_text2.default,
     width: 2,
     order: 3
@@ -13186,7 +13145,7 @@ var _playing_track2 = _interopRequireDefault(_playing_track);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/// App store.
+/// Store.
 ///
 /// Each new reducer must be added here.
 var store = (0, _redux.createStore)((0, _redux.combineReducers)({
@@ -13196,7 +13155,7 @@ var store = (0, _redux.createStore)((0, _redux.combineReducers)({
 
 /// Root component.
 ///
-/// Provides the store and hash history.
+/// Provides the store, hash history, and routes.
 var Root = function Root() {
   return _react2.default.createElement(
     _reactRedux.Provider,
@@ -29512,7 +29471,7 @@ var Routes = function Routes() {
   return _react2.default.createElement(
     _reactRouterDom.Switch,
     null,
-    _react2.default.createElement(_reactRouterDom.Route, { path: '/:type', component: _search_results_container2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { path: '/:entityType', component: _search_results_container2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _search_results_container2.default })
   );
 };
@@ -29542,7 +29501,7 @@ var _reactRouter = __webpack_require__(10);
 
 var _empty = __webpack_require__(8);
 
-var _string = __webpack_require__(69);
+var _url = __webpack_require__(304);
 
 var _entity_type = __webpack_require__(19);
 
@@ -29550,9 +29509,9 @@ var _entity_type2 = _interopRequireDefault(_entity_type);
 
 var _service = __webpack_require__(70);
 
-var _app = __webpack_require__(282);
+var _app_container = __webpack_require__(303);
 
-var _app2 = _interopRequireDefault(_app);
+var _app_container2 = _interopRequireDefault(_app_container);
 
 var _pagination_bar = __webpack_require__(292);
 
@@ -29588,7 +29547,9 @@ var SearchResultsContainerCompoent = function (_React$Component) {
   _createClass(SearchResultsContainerCompoent, [{
     key: 'prevPage',
     value: function prevPage() {
-      if (this.props.page > 1) this.updatePage.bind(this, this.props.page - 1)();
+      if (this.props.page > 1) {
+        this.updatePage.bind(this, this.props.page - 1)();
+      }
     }
   }, {
     key: 'nextPage',
@@ -29600,11 +29561,8 @@ var SearchResultsContainerCompoent = function (_React$Component) {
   }, {
     key: 'updatePage',
     value: function updatePage(page) {
-      var urlParams = (0, _string.parseUrlParamsString)(this.props.location.search);
-      if (urlParams.pg === page) return;
-      urlParams.pg = page;
-      var newUrl = (0, _string.getUrlWithUrlAndParams)(this.props.location.pathname, urlParams);
-      this.props.history.push(newUrl);
+      if (this.props.page === page) return;
+      this.props.history.push((0, _url.getUrlWithUpdatedParams)(this.props.location.search, { pg: page }));
     }
   }, {
     key: '_totalPages',
@@ -29615,23 +29573,31 @@ var SearchResultsContainerCompoent = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _app2.default,
+        _app_container2.default,
         null,
         _react2.default.createElement(
           'div',
-          { className: 'search-results-container' },
+          { className: 'container' },
           _react2.default.createElement(
             'div',
-            { className: 'search-results-sticky-bar' },
-            _react2.default.createElement(_pagination_bar2.default, { numResults: this.props.total,
-              pageNum: this.props.page,
-              numPages: this._totalPages(),
-              onPrevPage: this.prevPage.bind(this),
-              onNextPage: this.nextPage.bind(this) }),
-            _react2.default.createElement(_column_headers2.default, { type: this.props.type })
-          ),
-          _react2.default.createElement(_search_results2.default, { results: this.props.results,
-            onTrackPlay: this.props.onTrackPlay })
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'search-results-container col-md-12' },
+              _react2.default.createElement(
+                'div',
+                { className: 'search-results-sticky-bar' },
+                _react2.default.createElement(_pagination_bar2.default, { numResults: this.props.total,
+                  pageNum: this.props.page,
+                  numPages: this._totalPages(),
+                  onPrevPage: this.prevPage.bind(this),
+                  onNextPage: this.nextPage.bind(this) }),
+                _react2.default.createElement(_column_headers2.default, { entityType: this.props.entityType })
+              ),
+              _react2.default.createElement(_search_results2.default, { results: this.props.results,
+                onTrackPlay: this.props.onTrackPlay })
+            )
+          )
         )
       );
     }
@@ -29641,13 +29607,13 @@ var SearchResultsContainerCompoent = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var page = parseInt((0, _string.parseUrlParamsString)(ownProps.location.search).pg);
-  var type = parseInt(ownProps.match.params.type);
+  var page = parseInt((0, _url.getUrlParams)(ownProps.location.search).pg);
+  var entityType = parseInt(ownProps.match.params.entityType);
   return {
     results: state.searchResults.results,
     total: state.searchResults.total,
     page: isNaN(page) ? 1 : page,
-    type: isNaN(type) ? _entity_type2.default.TRACK : type
+    entityType: isNaN(entityType) ? _entity_type2.default.TRACK : entityType
   };
 };
 
@@ -29706,78 +29672,7 @@ LAST_FM_ENTITY_SCHEMA[_entity_type2.default.ARTIST] = {
 exports.default = LAST_FM_ENTITY_SCHEMA;
 
 /***/ }),
-/* 282 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _search_bar_container = __webpack_require__(283);
-
-var _search_bar_container2 = _interopRequireDefault(_search_bar_container);
-
-var _player_container = __webpack_require__(287);
-
-var _player_container2 = _interopRequireDefault(_player_container);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var App = function (_React$Component) {
-  _inherits(App, _React$Component);
-
-  function App() {
-    _classCallCheck(this, App);
-
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-  }
-
-  _createClass(App, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      // (IOS bug fix) when scrolling url bar disappears.
-      $(window).scroll(function () {
-        return $('#app').height(window.innerHeight);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { id: 'app' },
-        _react2.default.createElement(_search_bar_container2.default, null),
-        _react2.default.createElement(
-          'div',
-          { id: 'scroll-container' },
-          this.props.children
-        ),
-        _react2.default.createElement(_player_container2.default, null)
-      );
-    }
-  }]);
-
-  return App;
-}(_react2.default.Component);
-
-exports.default = App;
-
-/***/ }),
+/* 282 */,
 /* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29802,7 +29697,7 @@ var _lodash = __webpack_require__(284);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _string = __webpack_require__(69);
+var _url = __webpack_require__(304);
 
 var _empty = __webpack_require__(8);
 
@@ -29833,7 +29728,7 @@ var SearchBarContainerComponent = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (SearchBarContainerComponent.__proto__ || Object.getPrototypeOf(SearchBarContainerComponent)).call(this, props));
 
     if ((0, _empty.isNotEmpty)(props.query)) {
-      props.onQuery(props.type, props.query, props.page);
+      props.onQuery(props.entityType, props.query, props.page);
     }
     return _this;
   }
@@ -29841,29 +29736,13 @@ var SearchBarContainerComponent = function (_React$Component) {
   _createClass(SearchBarContainerComponent, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
-      newProps.onQuery(newProps.type, newProps.query, newProps.page);
-    }
-  }, {
-    key: 'onTypeChange',
-    value: function onTypeChange(newType) {
-      this.pushNewLocation.bind(this, newType, this.props.query)();
-    }
-  }, {
-    key: 'onQueryChange',
-    value: function onQueryChange(newQuery) {
-      this.pushNewLocation.bind(this, this.props.type, newQuery)();
-    }
-  }, {
-    key: 'onQuery',
-    value: function onQuery() {
-      this.pushNewLocation.bind(this, this.props.type, this.props.query)();
+      newProps.onQuery(newProps.entityType, newProps.query, newProps.page);
     }
   }, {
     key: 'pushNewLocation',
-    value: function pushNewLocation(type, query) {
-      /* TODO: Push new location only when fetching entities not every time the query changes */
+    value: function pushNewLocation(entityType, query) {
       var currentUrl = this.props.location.pathname + this.props.location.search;
-      var newUrl = (0, _string.getUrlWithUrlAndParams)('/' + type, { q: query });
+      var newUrl = (0, _url.getUrlWithUpdatedParams)('/' + entityType, { q: query });
       if (currentUrl !== newUrl) this.props.history.push(newUrl);
     }
   }, {
@@ -29883,10 +29762,8 @@ var SearchBarContainerComponent = function (_React$Component) {
               'div',
               { className: 'col-md-8' },
               _react2.default.createElement(_search_form2.default, { query: this.props.query,
-                type: this.props.type,
-                onTypeChange: this.onTypeChange.bind(this),
-                onQueryChange: this.onQueryChange.bind(this),
-                onQuery: this.onQuery.bind(this) })
+                entityType: this.props.entityType,
+                onQuery: this.pushNewLocation.bind(this) })
             ),
             _react2.default.createElement('div', { className: 'col-md-2' })
           )
@@ -29899,12 +29776,12 @@ var SearchBarContainerComponent = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var type = ownProps.match.params.type;
-  var urlParams = (0, _string.parseUrlParamsString)(ownProps.location.search);
+  var entityType = ownProps.match.params.entityType;
+  var urlParams = (0, _url.getUrlParams)(ownProps.location.search);
   var query = (0, _empty.isNotEmpty)(urlParams.q) ? decodeURIComponent(urlParams.q) : '';
   var page = (0, _empty.isNotEmpty)(urlParams.pg) ? parseInt(urlParams.pg) : 1;
   return {
-    type: (0, _empty.isNotEmpty)(type) ? parseInt(type) : _entity_type2.default.TRACK,
+    entityType: (0, _empty.isNotEmpty)(entityType) ? parseInt(entityType) : _entity_type2.default.TRACK,
     query: query,
     page: page
   };
@@ -29912,8 +29789,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    onQuery: (0, _lodash2.default)(function (type, query, page) {
-      dispatch((0, _search_actions.fetchEntities)(type, query, page));
+    onQuery: (0, _lodash2.default)(function (entityType, query, page) {
+      dispatch((0, _search_actions.fetchEntities)(entityType, query, page));
     }, QUERY_DEBOUNCE_TIME, { 'maxWait': QUERY_MAX_WAIT_TIME })
   };
 };
@@ -30320,6 +30197,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -30334,72 +30213,112 @@ var _schema2 = _interopRequireDefault(_schema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SearchForm = function SearchForm(_ref) {
-  var query = _ref.query,
-      type = _ref.type,
-      onQueryChange = _ref.onQueryChange,
-      onTypeChange = _ref.onTypeChange,
-      onQuery = _ref.onQuery;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  var typeProperties = _schema2.default[type];
-  var typeOptions = Object.values(_entity_type2.default).map(function (type) {
-    return _react2.default.createElement(
-      'div',
-      { className: 'search-bar-type-option',
-        key: type,
-        onClick: function onClick() {
-          return onTypeChange(type);
-        } },
-      _schema2.default[type].label
-    );
-  });
-  return _react2.default.createElement(
-    'div',
-    { className: 'input-group' },
-    _react2.default.createElement(
-      'form',
-      { onSubmit: onQuery },
-      _react2.default.createElement('input', { type: 'text',
-        className: 'form-control',
-        autoComplete: 'off',
-        value: query,
-        placeholder: typeProperties.placeHolder,
-        onChange: function onChange(e) {
-          return onQueryChange(e.target.value);
-        } })
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'input-group-btn' },
-      _react2.default.createElement(
-        'div',
-        { className: 'btn-group', role: 'group' },
-        _react2.default.createElement(
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SearchForm = function (_React$Component) {
+  _inherits(SearchForm, _React$Component);
+
+  function SearchForm(props) {
+    _classCallCheck(this, SearchForm);
+
+    var _this = _possibleConstructorReturn(this, (SearchForm.__proto__ || Object.getPrototypeOf(SearchForm)).call(this, props));
+
+    _this.state = { entityType: props.entityType, query: props.query };
+    return _this;
+  }
+
+  _createClass(SearchForm, [{
+    key: 'onEntityTypeChange',
+    value: function onEntityTypeChange(newEntityType) {
+      this.setState(function (prevState) {
+        return Object.assign(prevState, { entityType: newEntityType });
+      });
+    }
+  }, {
+    key: 'onQueryChange',
+    value: function onQueryChange(newQuery) {
+      this.setState(function (prevState) {
+        return Object.assign(prevState, { query: newQuery });
+      });
+    }
+  }, {
+    key: 'onQuery',
+    value: function onQuery(event) {
+      event.preventDefault();
+      this.props.onQuery(this.state.entityType, this.state.query);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var typeProperties = _schema2.default[this.state.entityType];
+      var typeOptions = Object.values(_entity_type2.default).map(function (type) {
+        return _react2.default.createElement(
           'div',
-          { className: 'dropdown dropdown-lg' },
-          _react2.default.createElement(
-            'button',
-            { className: 'btn btn-default dropdown-toggle',
-              'data-toggle': 'dropdown',
-              'aria-expanded': 'false' },
-            typeProperties.label,
-            _react2.default.createElement('span', { className: 'caret serach-bar-type-picker-caret' })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'dropdown-menu dropdown-menu-right', role: 'menu' },
-            typeOptions
-          )
+          { className: 'search-bar-type-option',
+            key: type,
+            onClick: _this2.onEntityTypeChange.bind(_this2, type) },
+          _schema2.default[type].label
+        );
+      });
+      return _react2.default.createElement(
+        'div',
+        { className: 'input-group' },
+        _react2.default.createElement(
+          'form',
+          { onSubmit: function onSubmit(e) {
+              return _this2.onQuery.bind(_this2, e)();
+            } },
+          _react2.default.createElement('input', { type: 'text',
+            className: 'form-control',
+            autoComplete: 'off',
+            value: this.state.query,
+            placeholder: typeProperties.placeHolder,
+            onChange: function onChange(e) {
+              return _this2.onQueryChange.bind(_this2, e.target.value)();
+            } })
         ),
         _react2.default.createElement(
-          'button',
-          { className: 'btn btn-primary', onClick: onQuery },
-          _react2.default.createElement('span', { className: 'glyphicon glyphicon-search', 'aria-hidden': 'true' })
+          'div',
+          { className: 'input-group-btn' },
+          _react2.default.createElement(
+            'div',
+            { className: 'btn-group', role: 'group' },
+            _react2.default.createElement(
+              'div',
+              { className: 'dropdown dropdown-lg' },
+              _react2.default.createElement(
+                'button',
+                { className: 'btn btn-default dropdown-toggle',
+                  'data-toggle': 'dropdown',
+                  'aria-expanded': 'false' },
+                typeProperties.label,
+                _react2.default.createElement('span', { className: 'caret serach-bar-type-picker-caret' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'dropdown-menu dropdown-menu-right', role: 'menu' },
+                typeOptions
+              )
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'btn btn-primary', onClick: this.onQuery.bind(this) },
+              _react2.default.createElement('span', { className: 'glyphicon glyphicon-search', 'aria-hidden': 'true' })
+            )
+          )
         )
-      )
-    )
-  );
-};
+      );
+    }
+  }]);
+
+  return SearchForm;
+}(_react2.default.Component);
 
 exports.default = SearchForm;
 
@@ -30461,6 +30380,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(41);
 
+var _empty = __webpack_require__(8);
+
 var _player_actions = __webpack_require__(71);
 
 var _player = __webpack_require__(289);
@@ -30472,7 +30393,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var PlayerContainerComponent = function PlayerContainerComponent(_ref) {
   var track = _ref.track,
       onClose = _ref.onClose;
-  return _react2.default.createElement(
+  return (0, _empty.isNotEmpty)(track) ? _react2.default.createElement(
     'div',
     { className: 'player-bar' },
     _react2.default.createElement(
@@ -30490,7 +30411,7 @@ var PlayerContainerComponent = function PlayerContainerComponent(_ref) {
         _react2.default.createElement('div', { className: 'col-md-1' })
       )
     )
-  );
+  ) : null;
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -30557,7 +30478,7 @@ var getYtInfo = exports.getYtInfo = function getYtInfo(name, artist) {
 /// Accepts a string of the form PT3M46S and return the number of seconds,
 /// in this case 226 (3 * 60 + 46).
 var parseYtDuration = function parseYtDuration(durationStr) {
-  var matches = durationStr.match(/PT(\d*)M(\d*)S/);
+  var matches = durationStr.match(/PT(\d+)M(\d+)S/);
   return (0, _empty.isNotEmpty)(matches) ? parseInt(matches[1]) * 60 + parseInt(matches[2]) : 0;
 };
 
@@ -30648,7 +30569,6 @@ var Player = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if ((0, _empty.isEmpty)(this.props.track)) return null;
       var trackInfo = this.props.track.artist.name + ' - ' + this.props.track.name;
       var playPauseButtonGlyph = this.state.playing ? 'pause' : 'play';
       var audioSource = (0, _empty.isNotEmpty)(this.props.track.ytid) ? _react2.default.createElement('source', { src: STREAM_BASE_URL + this.props.track.ytid }) : '';
@@ -30946,11 +30866,11 @@ var _schema2 = _interopRequireDefault(_schema);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ColumnHeaders = function ColumnHeaders(_ref) {
-  var type = _ref.type;
+  var entityType = _ref.entityType;
 
-  if ((0, _empty.isEmpty)(type)) return null;
+  if ((0, _empty.isEmpty)(entityType)) return null;
   var columnHeaders = [];
-  var typeSchema = _schema2.default[type];
+  var typeSchema = _schema2.default[entityType];
   Object.keys(typeSchema).sort(function (a, b) {
     return typeSchema[a].order - typeSchema[b].order;
   }).forEach(function (field) {
@@ -31283,7 +31203,7 @@ Object.defineProperty(exports, "__esModule", {
 var _search_actions = __webpack_require__(123);
 
 var DEFAULT_STATE = Object.freeze({
-  entities: [],
+  results: [],
   page: 1,
   total: 0
 });
@@ -31334,6 +31254,122 @@ var playingTrack = function playingTrack() {
 };
 
 exports.default = playingTrack;
+
+/***/ }),
+/* 303 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _search_bar_container = __webpack_require__(283);
+
+var _search_bar_container2 = _interopRequireDefault(_search_bar_container);
+
+var _player_container = __webpack_require__(287);
+
+var _player_container2 = _interopRequireDefault(_player_container);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AppContainer = function (_React$Component) {
+  _inherits(AppContainer, _React$Component);
+
+  function AppContainer() {
+    _classCallCheck(this, AppContainer);
+
+    return _possibleConstructorReturn(this, (AppContainer.__proto__ || Object.getPrototypeOf(AppContainer)).apply(this, arguments));
+  }
+
+  _createClass(AppContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // (IOS bug fix) when scrolling url bar disappears.
+      $(window).scroll(function () {
+        return $('#app-container').height(window.innerHeight);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { id: 'app-container' },
+        _react2.default.createElement(_search_bar_container2.default, null),
+        _react2.default.createElement(
+          'div',
+          { id: 'scroll-container' },
+          this.props.children
+        ),
+        _react2.default.createElement(_player_container2.default, null)
+      );
+    }
+  }]);
+
+  return AppContainer;
+}(_react2.default.Component);
+
+exports.default = AppContainer;
+
+/***/ }),
+/* 304 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getUrlWithUpdatedParams = exports.getUrlParams = undefined;
+
+var _empty = __webpack_require__(8);
+
+/// Returns [url]'s params.
+var getUrlParams = exports.getUrlParams = function getUrlParams(url) {
+  var matches = url.match(/\?(.+)$/);
+  if ((0, _empty.isEmpty)(matches)) return {};
+  var paramsStr = matches[1];
+  var paramStrings = paramsStr.split('&');
+  var params = {};
+  paramStrings.forEach(function (paramStr) {
+    matches = paramStr.match(/(.+)=(.+)/);
+    if ((0, _empty.isNotEmpty)(matches) && (0, _empty.isNotEmpty)(matches[1]) && (0, _empty.isNotEmpty)(matches[2])) {
+      params[matches[1]] = matches[2];
+    }
+  });
+  return params;
+};
+
+/// Updates [url]'s params by merging them with [params], and returns the
+/// resulting URL.
+var getUrlWithUpdatedParams = exports.getUrlWithUpdatedParams = function getUrlWithUpdatedParams(url, params) {
+  var baseUrlMatches = url.match(/^(.+)(?:\?|$)/);
+  var baseUrl = (0, _empty.isNotEmpty)(baseUrlMatches) ? baseUrlMatches[1] : '';
+  var updatedParams = Object.assign(getUrlParams(url), params);
+  var paramsStr = Object.keys(updatedParams).filter(function (key) {
+    return (0, _empty.isNotEmpty)(key) && (0, _empty.isNotEmpty)(updatedParams[key]);
+  }).map(function (key) {
+    return key + '=' + encodeURIComponent(updatedParams[key]);
+  }).join('&');
+  return (0, _empty.isNotEmpty)(paramsStr) ? baseUrl + '?' + paramsStr : baseUrl;
+};
 
 /***/ })
 /******/ ]);

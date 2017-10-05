@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 import debounce from 'lodash.debounce'
-import { getUrlWithUrlAndParams, parseUrlParamsString } from '../../util/misc/string'
+import { getUrlWithUpdatedParams, getUrlParams } from '../../util/misc/url'
 import { isNotEmpty } from '../../util/misc/empty'
 import ENTITY_TYPE from '../../util/api/last_fm/entity_type'
 
@@ -14,25 +14,15 @@ class SearchBarContainerComponent extends React.Component {
   constructor(props) {
     super(props)
     if (isNotEmpty(props.query)) {
-      props.onQuery(props.type, props.query, props.page)
+      props.onQuery(props.entityType, props.query, props.page)
     }
   }
   componentWillReceiveProps(newProps) {
-    newProps.onQuery(newProps.type, newProps.query, newProps.page)
+    newProps.onQuery(newProps.entityType, newProps.query, newProps.page)
   }
-  onTypeChange(newType) {
-    this.pushNewLocation.bind(this, newType, this.props.query)()
-  }
-  onQueryChange(newQuery) {
-    this.pushNewLocation.bind(this, this.props.type, newQuery)()
-  }
-  onQuery() {
-    this.pushNewLocation.bind(this, this.props.type, this.props.query)()
-  }
-  pushNewLocation(type, query) {
-    /* TODO: Push new location only when fetching entities not every time the query changes */
+  pushNewLocation(entityType, query) {
     const currentUrl = this.props.location.pathname + this.props.location.search
-    const newUrl = getUrlWithUrlAndParams('/' + type, {q: query})
+    const newUrl = getUrlWithUpdatedParams('/' + entityType, {q: query})
     if (currentUrl !== newUrl) this.props.history.push(newUrl)
   }
   render() {
@@ -43,10 +33,8 @@ class SearchBarContainerComponent extends React.Component {
             <div className="col-md-2"></div>
         		<div className="col-md-8">
               <SearchForm query={this.props.query}
-                          type={this.props.type}
-                          onTypeChange={this.onTypeChange.bind(this)}
-                          onQueryChange={this.onQueryChange.bind(this)}
-                          onQuery={this.onQuery.bind(this)}/>
+                          entityType={this.props.entityType}
+                          onQuery={this.pushNewLocation.bind(this)}/>
             </div>
             <div className="col-md-2"></div>
           </div>
@@ -57,12 +45,12 @@ class SearchBarContainerComponent extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const type = ownProps.match.params.type
-  const urlParams = parseUrlParamsString(ownProps.location.search)
+  const entityType = ownProps.match.params.entityType
+  const urlParams = getUrlParams(ownProps.location.search)
   const query = isNotEmpty(urlParams.q) ? decodeURIComponent(urlParams.q) : ''
   const page = isNotEmpty(urlParams.pg) ? parseInt(urlParams.pg) : 1
   return {
-    type: isNotEmpty(type) ? parseInt(type) : ENTITY_TYPE.TRACK,
+    entityType: isNotEmpty(entityType) ? parseInt(entityType) : ENTITY_TYPE.TRACK,
     query: query,
     page: page
   }
@@ -70,8 +58,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onQuery: debounce((type, query, page) => {
-      dispatch(fetchEntities(type, query, page))
+    onQuery: debounce((entityType, query, page) => {
+      dispatch(fetchEntities(entityType, query, page))
     }, QUERY_DEBOUNCE_TIME, {'maxWait': QUERY_MAX_WAIT_TIME})
   }
 }

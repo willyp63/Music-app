@@ -13,7 +13,7 @@ import SearchResultsContainer from './components/search_results/search_results_c
 /// '/' - Shows just the search bar and an empty list of results.
 const Routes = () => (
   <Switch>
-    <Route path="/:type" component={SearchResultsContainer} />
+    <Route path="/:entityType" component={SearchResultsContainer} />
     <Route path="/" component={SearchResultsContainer} />
   </Switch>
 )

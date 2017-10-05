@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isEmpty, isNotEmpty } from '../../util/misc/empty'
+import { isNotEmpty } from '../../util/misc/empty'
 import MyAudioPlayer from './my_audio_player'
 import { formatTimeMinutesSeconds } from '../../util/misc/time'
 
@@ -34,7 +34,6 @@ class Player extends React.Component {
     $('#app').height(window.innerHeight)
   }
   render() {
-    if (isEmpty(this.props.track)) return null
     const trackInfo = this.props.track.artist.name
         + ' - ' + this.props.track.name
     const playPauseButtonGlyph = this.state.playing ? 'pause' : 'play'
